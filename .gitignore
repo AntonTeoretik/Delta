@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Stack files
+*.yaml
+
+# Other
+*.pdf
