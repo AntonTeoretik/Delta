@@ -359,4 +359,3 @@ data Shape = Circle Double            --- конструктор данных д
 
 
 
-
