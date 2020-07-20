@@ -221,6 +221,65 @@ Node (Leaf 2.0) 4.0 (Node (Leaf 1.0) 3.0 (Leaf 9.0))
 -}
 ```
 
+## Метки полей.
+
+Часто бывает удобно делать так, чтобы поля типов имели название. Для типов-произведений такой способ есть. Допустим, мы хотим создать тип `Person`, который будет хранить в себе имя человека, фамилию и возраст. Мы могли бы сделать так:
+
+```Haskell
+data Person = Person String String Int
+  deriving (Show, Eq)
+```
+
+Однако, не очень понятно за что отвечает первый `String`, а за что второй. К тому же хочется получить функции, которые узнают имя человека, фамилию и возраст. В Haskell существует такой синтаксис:
+
+```Haskell 
+
+data Person = Person { firstsName :: String, lastName :: String, age :: Int }
+  deriving (Show, Eq)
+
+```
+
+Теперь можно делать три вещи:
+* извлекать из нашего типа значение отдельных полей с помощью функций `firstName`, `lastName` и `age`, и наоборот, создавать при помощи них новую персону:
+
+```Haskell
+>> let bill = Person "Bill" "Ivanov" 17
+>> firstName bill
+"Bill"
+
+>> let john = Person {age = 13, lastName = "Petrov", firstName = "John"} -- можем менять порядок!
+
+
+```
+
+
+* использовать их в сопоставлении с образцом, с возможностью выделить только те поля, которые нужно:
+
+```Haskell
+
+welcomeBill :: Person -> String
+welcomeBill ( Person {firstName = "Bill"} ) = "Welcome, Bill"
+welcomeBill _ = "You are not Bill".
+
+>> let bill = Person "Bill" "Ivanov" 17
+>> welcomeBill bill
+Person {firstName = "John", lastName = "Ivanov", age = 17}
+
+```
+
+* менять часть полей (точнее возвращать новую переменную с измененными полями)
+
+```Haskell
+
+changeName :: String -> Person -> Person
+changeName new_name pers = pers {firstName = new_name} 
+
+>> let bill = Person "Bill" "Ivanov" 17
+>> changeName "John" bill
+
+
+```
+
 
 # Анонимные функции.
 
