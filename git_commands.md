@@ -1,8 +1,13 @@
 # Using Git
+To use any of the git commands open your console either in the directory or a subdirectory of your git project.
 
 ## Know where you are
 `git status`
 This will tell you your current branch, as well as any tracked (added) and untracked changes.
+
+## Change branches
+To change your current brach, use the command
+`git checkout <branch-name>`
 
 ## Creating a branch
 - Navigate to where you want to branch off from.
@@ -17,7 +22,7 @@ or the (nearly) equivalent
 
 Now you can commit.
 Commit your changes with
-`git commit -m "Change things"
+`git commit -m "Change things"`
 
 ## Pushing (Uploading) changes
 To push your changes, use the command `git push origin <your-branch>`
