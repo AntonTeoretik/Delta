@@ -25,3 +25,12 @@
 * `sudo add-apt-repository ppa:git-core/ppa`
 * `sudo apt update`
 * `sudo apt intall git`
+
+
+# Устанавливаем sublime-text
+
+## Windows
+
+* `sublimetext.com/3`
+* Скачиваем установщик (Windows 64 bit)
+* Ставим
