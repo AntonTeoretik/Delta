@@ -1,5 +1,5 @@
-module electric where
-data StaticElectricParticle
+module Electric where
+data StaticElectricParticle = 
 
 getElectricField :: StaticElectricParticle -> Point -> Vector
 getElectricFieldSystem :: [StaticElectricParticle] -> Point -> Vector
