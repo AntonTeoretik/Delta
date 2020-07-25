@@ -68,6 +68,8 @@ veclength :: Vector -> Double
 veclength (Vector x y z) = distance (Point x y z) (Point 0 0 0)
 
 normalize :: Vector -> Vector
-normalize v = Vector (vx v / veclength v)
-                     (vy v / veclength v)
-                     (vz v / veclength v)
+normalize v = 
+  let d = veclength v in
+    case d of
+        0 -> zero
+        _ -> (1/d) *. v
