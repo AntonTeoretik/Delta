@@ -98,6 +98,24 @@ instance Num Complex where
 
 ```
 
+Можно также реализовать деление комплексных чисел. В этом случае надо еще сделать тип `Complex` представителем типа `Fractional`:
+
+```Haskell
+
+instance Fractional Complex where
+  (/) z (Complex x2 y2) = alpha * z * Complex x2 (negate y2)
+    where
+      alpha = ( fromRational . toRational . (1/) $ x2^2 + y2^2)  ::Complex
+  fromRational x = Complex (fromRational x) 0 
+
+>> let i = Complex 0 1
+>> i / i
+1.0 + i*0.0
+>> i * i
+-1.0 + i*0.0
+
+```
+
 
 # Полезные типы
 
