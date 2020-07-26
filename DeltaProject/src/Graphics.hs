@@ -13,13 +13,16 @@ displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do
      let points = [(xp, yp, zp::GLdouble)
                   ,(xv, yv, zv)]
      renderAs Lines points
-     
+     flush
 
 
 --принимает векторное поле и список точек, в которых нужно нарисовать вектора, рисует их
 displayVecField :: (A.Point -> A.Vector) -> [A.Point] -> IO()
 
-displayVecField vecField ps = head $ map displayVector (zip ps $ map vecField ps)
+displayVecField vecField ps = do
+    clear [ColorBuffer]
+    map displayVector (zip ps $ map vecField ps)
+    flush
 
 
 

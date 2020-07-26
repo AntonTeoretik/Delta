@@ -43,21 +43,21 @@ makeVertexes = mapM_ (\(x, y, z) -> vertex$Vertex3 x y z)
 
 
 
---mainFor primitiveShape
--- = renderInWindow (displayMyPoints primitiveShape)
+mainFor primitiveShape
+ = renderInWindow (displayMyPoints primitiveShape)
 
---displayMyPoints primitiveShape = do
---   currentColor $= Color4 1 1 0 1
---   clear [ColorBuffer]
---   displayPoints myPoints primitiveShape
+displayMyPoints primitiveShape = do
+   clear [ColorBuffer]
+   currentColor $= Color4 1 1 0 1
+   displayPoints myPoints primitiveShape
 
 
 
---myPoints
--- = [(0.2, -0.4, 0::GLdouble)
---   ,(0.46, -0.26, 0)
---   ,(0.6, 0, 0)
---   ,(0.46, 0.46, 0)
+myPoints
+ = [(0.2, -0.4, 0::GLdouble)
+   ,(0.46, -0.26, 0)
+   ,(0.6, 0, 0)
+   ,(0.46, 0.46, 0)]
 --   ,(0.2, 0.6, 0)
 --   ,(0, 0.6, 0)
 --   ,(-0.26, 0.46, 0)
