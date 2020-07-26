@@ -8,8 +8,7 @@ import PointsForRendering
 --рисует вектор в 3D пространстве в данной точке
 displayVector :: (A.Point, A.Vector) -> IO() 
 
-displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do
-     clear [ColorBuffer] 
+displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do 
      let points = [(xp, yp, zp::GLdouble)
                   ,(xv, yv, zv)]
      renderAs Lines points
@@ -20,8 +19,9 @@ displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do
 displayVecField :: (A.Point -> A.Vector) -> [A.Point] -> IO()
 
 displayVecField vecField ps = do
+    currentColor $= Color4 1 1 0 1
     clear [ColorBuffer]
-    map displayVector (zip ps $ map vecField ps)
+    mapM_ displayVector (zip ps $ map vecField ps)
     flush
 
 
