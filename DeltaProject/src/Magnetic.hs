@@ -10,6 +10,7 @@ magicConst = (4 * pi * 10 ** (-7)) / (4 * pi)
 
 --getMagneticField :: Circuit -> Point -> Vector
 --getMagneticField ( Circuit (a) (Point (x) (y) (z)) ) = (magicConst / 4) + ((a * () ()))
+-- hhhhhhh
 
 getMagneticFieldSystem :: [Circuit] -> Point -> Vector
 getMagneticFieldSystem = undefined
