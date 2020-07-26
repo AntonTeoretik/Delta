@@ -65,7 +65,7 @@ instance Group () where
 
 Можно реализовывать представителей для встроенных классов типов. Например, допустим, у нас есть тип `Complex`, реализующий комплексные числа. Мы хотим сделать его представителем класса типов `Num` и `Show`, т.е. уметь складывать, вычитать и умножать комплексные числа, а также показывать их в консоль.
 
-Мы можем написать такое:
+Сделаем это так:
 
 
 ```Haskell
@@ -76,13 +76,25 @@ data Complex = Complex Double Double
 instance Show Complex where
   show (Complex x y) = show x ++ (if y >= 0 then " + i*" else " - i*") ++ show (abs y) -- реализация красивого Show для комплексных чисел.
 
+
 instance Num Complex where
-  Complex x1 y1 + Complex x2 y2 = Complex (x1 + x2) (y1 + y2) 
+  (+) (Complex x1 y1) (Complex x2 y2) = Complex (x1 + x2) (y1 + y2)
   negate (Complex x y) = Complex (-x) (-y)
-  Complex x1 y1 * Complex x2 y2 = Complex (x1 * x2 - y1 * y2) (x1 * y2 + x2* y1 ) 
+  (*) (Complex x1 y1) (Complex x2 y2) = Complex (x1 * x2 - y1 * y2) (x1 * y2 + x2* y1 ) 
   abs x = x -- это приходится реализовывать как-то, у нас -- бессмысленно.
-  signum x = 1
+  signum x = 1 -- аналогичено
   fromInteger n = Complex (fromInteger n) 0 
+
+---
+
+>> Complex (-1) 2 + Complex 2 (-1)
+1.0 + i*1.0
+>> Complex (-1) (-2) * Complex 2 (-1)
+-4.0 - i*3.0
+>> fromInteger 2 :: Complex 
+2.0 + i*0.0
+
+
 
 ```
 
