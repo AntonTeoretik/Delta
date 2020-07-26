@@ -1,3 +1,4 @@
+module Distribution where
 data Cube
 data Distibution
 
