@@ -2,6 +2,7 @@ module Example
     ( simpleField
     ) where
 import Graphics
+import Graphics.Rendering.OpenGL
 import Algebra
 import PointsForRendering
 
