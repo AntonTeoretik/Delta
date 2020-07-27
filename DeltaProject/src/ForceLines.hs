@@ -1,14 +1,19 @@
 module ForceLines where
 
+import Algebra
+
 data ForceLines = ForceLines [[Point]]
 derivng (Show, Eq)
 
 buildForceLineFromPoint :: Double -> (Point -> Vector) -> Point -> [Point]
-buildForceLineFromPoint a (Vector x y z) (Point k l m) = (Point k l m) : map (.->) buildForceLineFromPoint (Vector x1 y1 z1) 
-                               where (Vector x1 y1 z1) = a *. (normalize Vector x y z) 
+buildForceLineFromPoint a f x = x : zipWith f' buildForceLineFromPoint (tail buildForceLineFromPoint)
+                               where f' = if a < veclength $ f x then .-> $ a *. $ f x else  .-> $ f x 
 
 buildFroVecField :: Double -> (Point -> Vector) -> ForceLines
 buildFroVecField = underfined
+
+
+
 
 
 
