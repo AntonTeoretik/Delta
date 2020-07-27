@@ -1,5 +1,5 @@
-module Random where 
-import System.Random	
+module Random where
+import System.Random
 import Algebra
 
 
