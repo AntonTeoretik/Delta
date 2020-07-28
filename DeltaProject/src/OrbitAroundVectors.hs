@@ -31,10 +31,7 @@ display pPos = do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
-   displayVecField simpleField [(A.Point 0.5 0.1 0)
-                               ,(A.Point 0.1 0.1 (-3))                                         ,(A.Point 0.5 0.5 0)
-                               ,(A.Point 0.1 0.5 2)
-                               ,(A.Point 1 0 0)]
+   displayVecField simpleField points
    swapBuffers
 
 keyboard pPos c _ _ _ = keyForPos pPos c
