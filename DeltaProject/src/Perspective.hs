@@ -31,7 +31,7 @@ main = do
 
 display = do
   clear [ColorBuffer, DepthBuffer]
-  loadIdentity 
+  loadIdentity --loads identity matrix
   translate (Vector3 0 0 (-2 :: GLfloat))
   currentColor $= Color4 0 0 1 1
   fillCircle 1

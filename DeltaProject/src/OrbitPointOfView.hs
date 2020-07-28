@@ -1,11 +1,16 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 module OrbitPointOfView where
+
 import Graphics.Rendering.OpenGL
 import Graphics.UI.GLUT as GLUT
 
-import Data.IORef  
+--import StateUtil
+--import Data.IORef  
 
+--pPos = perspective OrbitPointOfView.setPointOfView
+--position specified by 2 angles + radius
+--fist angle = which way to move around the x-axis, second angle = same but y-axis, radius = distance from origin
 setPointOfView pPos = do
     (alpha, beta, r) <- get pPos
     let

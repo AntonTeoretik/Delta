@@ -11,3 +11,6 @@ import Graphics.UI.GLUT
 --   get var = readIORef var
 
 new = newIORef
+
+--я не понимаю что делает этот модуль и что такое IORef
+--(взят из 58й страницы книги)
