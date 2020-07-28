@@ -5,6 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 --
 -- hash: 7b2d80aa8f3ab11250562bbf5465733df448f810e1e038d8adb157c6cc1242d0
+-- hash: 219ff28efca7454f39881a9ae7e290b9060b482d141cbae6334a7053f10af109
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -27,6 +28,8 @@ source-repository head
 
 library
   exposed-modules:
+      Algebra
+      Distribution
       Lib
   other-modules:
       Paths_DeltaProject
@@ -46,6 +49,7 @@ executable DeltaProject-exe
   build-depends:
       DeltaProject
     , base >=4.7 && <5
+    , deepseq
   default-language: Haskell2010
 
 test-suite DeltaProject-test
@@ -59,4 +63,5 @@ test-suite DeltaProject-test
   build-depends:
       DeltaProject
     , base >=4.7 && <5
+    , deepseq
   default-language: Haskell2010

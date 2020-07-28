@@ -1,9 +1,9 @@
 module Distribution where
-data Cube
-data Distibution
+    --import Algebra.hs
 
-standardCube :: Cube -- стандартный куб с центром в начале координат и стороной 2.
+data Point = Point { px :: Double, py :: Double, pz :: Double }
+  deriving (Eq, Generic, NFData, Show)
 
-buildDistibution :: Int  -> Cube -> Double -> (Point -> Double) -> Distribution
 
-getPointsWithDistribution :: Int -> Distibution ->  [Point]
+getPointsWithDistribution :: Int -> Distibution ->  [Point]standardCube = Cube 2 Point(0,0,0)
+
