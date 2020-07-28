@@ -1,4 +1,4 @@
-
+module Perspective where
 
 import Graphics.Rendering.OpenGL
 import Graphics.UI.GLUT as GLUT
