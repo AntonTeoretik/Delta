@@ -14,8 +14,8 @@ locally = preservingMatrix
 displayVector :: (A.Point, A.Vector) -> IO() 
 
 displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do 
-     let points = [(xp, yp, zp::GLdouble)
-                  ,(xv, yv, zv)]
+     let points = [(xp, yp, zp::Double)
+                  ,(xp + xv, yp + yv, zp + zv::Double)]
      renderAs Lines points
      flush
 

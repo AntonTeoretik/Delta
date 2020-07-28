@@ -44,8 +44,8 @@ reshape screenSize @ (Size w h) = do
     viewport $= ((Position 0 0), screenSize)
     matrixMode $= Projection
     loadIdentity           
-    let near = 0.001
-        far = 40
+    let near = 1
+        far = 90
         fov = 90
         ang = (far * pi) / (360)
         top = near / (cos(ang) / sin (ang))
