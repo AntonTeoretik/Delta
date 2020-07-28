@@ -1,5 +1,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 
+module OrbitAroundVectors where
 import Graphics.Rendering.OpenGL
 import Graphics.UI.GLUT as GLUT
 
@@ -12,7 +13,7 @@ import Example
 
 locally = preservingMatrix
 
-main = do
+main' = do
    (progName,_) <- getArgsAndInitialize
    initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
    createWindow progName
