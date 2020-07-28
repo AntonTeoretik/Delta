@@ -1,8 +1,11 @@
 module Electric where
-data StaticElectricParticle =  (PP :: Point, PV :: Vector) 
-  deriving (Eq, Show)
+data StaticElectricParticle = StaticElectricParticle {position :: Point, charge :: Double}
+  deriving (Eq, Generic, NFData, Show)
 
-getElectricField :: StaticElectricParticle -> Point -> Vector -- (точка, вектор) и точка дает (?) вектор
-getElectricFieldSystem :: [StaticElectricParticle] -> Point -> Vector -- [(точка, вектор)] и точка дает (?) вектор
+getElectricField :: StaticElectricParticle -> Point -> Vector -- 
 
-getSystemFromFuction :: (Double, Double) -> (Point, Double) -> [StaticElectricParticle] --(?)(число, число)->(точка, число)->[(точка, вектор)]
+
+getElectricFieldSystem :: [StaticElectricParticle] -> Point -> Vector -- 
+
+
+getSystemFromFuction :: (Double, Double) -> (Point, Double) -> [StaticElectricParticle] --
