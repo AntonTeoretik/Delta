@@ -16,6 +16,8 @@ renderInWindow displayFunction = do
 displayPoints :: [(GLdouble, GLdouble, GLdouble)] -> PrimitiveMode -> IO()
 
 displayPoints points primitiveShape = do
+   clear [ColorBuffer, DepthBuffer]
+   currentColor $= Color4 1 1 0 0
    renderAs primitiveShape points
    flush
 

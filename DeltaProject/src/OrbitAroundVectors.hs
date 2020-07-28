@@ -27,11 +27,13 @@ main' = do
    mainLoop
 
 --Тут менять функцию/точки
+display :: (HasGetter t (a, b, GLdouble), Integral b, Integral a) => t -> IO()
 display pPos = do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
    displayVecField simpleField points
+   --fillCircle 0.7
    swapBuffers
 
 keyboard pPos c _ _ _ = keyForPos pPos c

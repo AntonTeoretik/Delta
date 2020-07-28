@@ -24,8 +24,12 @@ displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do
 displayVecField :: (A.Point -> A.Vector) -> [A.Point] -> IO()
 
 displayVecField vecField ps = do
-    currentColor $= Color4 1 1 0 1
+    initialDisplayMode $= [RGBAMode, WithAlphaComponent, WithDepthBuffer]
+    depthFunc $= Just Less
+    blend $= Enabled 
+    blendFunc $= (SrcAlpha, OneMinusSrcAlpha)
     clear [ColorBuffer, DepthBuffer]
+    currentColor $= Color4 1 1 0 0.7
     mapM_ displayVector (zip ps $ map vecField ps)
     flush
 

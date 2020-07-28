@@ -11,6 +11,8 @@ import Graphics.UI.GLUT as GLUT
 --pPos = perspective OrbitPointOfView.setPointOfView
 --position specified by 2 angles + radius
 --fist angle = which way to move around the x-axis, second angle = same but y-axis, radius = distance from origin
+
+setPointOfView :: (HasGetter t (a, b, GLdouble), Integral b, Integral a) => t -> IO()
 setPointOfView pPos = do
     (alpha, beta, r) <- get pPos
     let
@@ -18,15 +20,18 @@ setPointOfView pPos = do
       (x2, y2, z2) = calculatePointOfView ((alpha + 90) `mod` 360) beta r
     lookAt (Vertex3 x y z) (Vertex3 0 0 0) (Vector3 x2 y2 z2)
 
+calculatePointOfView :: (Integral a1, Integral a2, Floating c) => a2 -> a1 -> c -> (c, c, c)
 calculatePointOfView alp bet r = 
     let alpha = fromIntegral alp * 2 * pi / fromIntegral 360
-        beta = fromIntegral bet * 2 * pi / fromIntegral 360
+        beta = fromIntegral bet * 2 * pi / fromIntegral 360   
         y = r * cos alpha
         u = r * sin alpha
         x = u * cos beta
         z = u * sin beta
     in (x, y, z)
 
+--keyForPos :: (HasGetter t (a, b, c), Control.Monad.IO.Class.MonadIO m, Integral a, Integral b, HasSetter t (a, b, c), Fractional c) => t -> Key -> m () 
+--keyForPos :: IO() -> IO()
 keyForPos pPos (Char '+')           = modPos pPos (id,id,\x->x-0.1)
 keyForPos pPos (Char '-')           = modPos pPos (id,id,(+)0.1)
 keyForPos pPos (SpecialKey KeyLeft) = modPos pPos (id,(+)359,id)
@@ -44,10 +49,11 @@ reshape screenSize @ (Size w h) = do
     viewport $= ((Position 0 0), screenSize)
     matrixMode $= Projection
     loadIdentity           
-    let near = 1
+    let near = 0.1
         far = 90
         fov = 90
         ang = (far * pi) / (360)
+        --ang = far / 2
         top = near / (cos(ang) / sin (ang))
         aspect = fromIntegral(w) / fromIntegral (h)
         right = top * aspect
