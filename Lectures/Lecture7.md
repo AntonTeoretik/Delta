@@ -113,3 +113,68 @@ instance Fractional Complex where
 -1.0 + i*0.0
 
 ```
+
+## Уравнения в классах типах: 
+
+```Haskell
+
+class Eq a where
+  (==), (/=) :: a -> a -> Bool
+  x /= y = not (x == y)
+  x == y = not (x /= y) 
+
+
+instance Eq Bool where
+  True == True = True
+  False == False = True
+  _ == _  = False
+
+
+```
+
+## Стрелка как конструктор типа!
+
+```Haskell
+
+>> :k (->)
+(->) :: * -> * -> *
+
+>> :i (->)
+
+data (->) (a :: TYPE q) (b :: TYPE r)
+```
+
+# Functor
+
+
+```Haskell
+
+class Functor f where
+  fmap :: (a -> b) -> f a -> f b
+
+```
+
+Примеры -- `([a], map)`, `Maybe a`, 
+
+Двупараметрические -- фиксируем первый параметр
+Что-то делаем только с одним типом. 
+
+`Either, (->)`
+
+
+```Haskell
+
+fmap length tail "ABC"
+
+```
+
+
+
+## Законы
+
+```Haskell
+
+fmap id = id
+fmap (f . g) = fmap f . fmap f
+
+```
