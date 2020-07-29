@@ -1,25 +1,25 @@
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
 module Particles where
-import Algebra    
+import Algebra
+import Data.List    
     
-data Particle = Particle {Point Vector lifetime :: Integer, mass :: Double, electricCharge :: Double}
+data Particle = Particle {position Point, velocity Vector, lifetime :: Integer, mass :: Double, electricCharge :: Double}
 
 data SystemOfParticles = SystemOfParticles { listOfParticles :: [Particle], radiusOfRegion :: Double}
 
 evaluateParticle :: Double -> Vector -> Particle -> Particle
-evaluateParticle k x (Particle {x1 x2 lifetime t, mass m, electricCharge q}) = Particle (x1 .-> x)  (Vector ((k *. (x /. m)) <+> x2))  lifetime (t - 1) mass m electricCharge q  
+evaluateParticle k f (Particle x1 v t m q) = Particle ((x1 .-> f) ((k *. (f /. m)) <+> v) (t - 1) m q) 
 
 evaluateSystemOfParticles :: Double -> (Point -> Vector) -> (Point -> Vector) -> SystemParticles -> SystemParticles
-evaluateSystemOfParticles k getMagneticForce (Vector (f)) (Particle {x1 x2 lifetime t, mass m, electricCharge q}) (getElectricForce (Vector (f')) (Particle {x1' x2' lifetime t', mass m', electricCharge q'})
-(SystemOfParticles {listOfParticles (a : as), radiusOfRegion b}) = | a
-                                                                   | 
+evaluateSystemOfParticles k f f' (SystemOfParticles a r) = map (if Particle {lifetime <= 0} then filter Particle {lifetime <= 0} (a) else evaluateParticle k (f <+> f') ) (a) 
+                                                                  
 
 addParticleToSystem :: Particle -> SystemOfParticles -> SystemOfParticles
-addParticleToSystem (Particle {x1 x2 lifetime t, mass m, electricCharge q})  (SystemOfParticles {listOfParticles a, radiusOfRegion b}) = SystemOfParticles ((Particle {x1 x2 lifetime t, mass m, electricCharge q}) : a  (b) )  
+addParticleToSystem particle (SystemOfParticles a r) = SystemOfParticles (particle : a) r  
 
 getMagneticForce :: (Point -> Vector) -> Particle -> Vector 
-getMagneticForce (Vector (f)) (Particle {x1 x2 lifetime t, mass m, electricCharge q}) = Vector $ q *. $ x2 <*> (Vector $ f)
+getMagneticForce f (Particle x1 x2 _ _ q) = q *. x2 <#> f x1
 
 getElectricForce :: (Point -> Vector) -> Particle -> Vector
-getElectricForce (Vector (f)) (Particle {x1 x2 lifetime t, mass m, electricCharge q}) = Vector $ q *. (Vector (f)) 
+getElectricForce f (Particle x1 _ _ _ q) = q *. f x1 
