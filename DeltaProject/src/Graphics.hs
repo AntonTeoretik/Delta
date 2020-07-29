@@ -1,5 +1,6 @@
 module Graphics where
 
+import GHC.Float
 import Algebra as A
 import Graphics.UI.GLUT as GLUT
 import Graphics.Rendering.OpenGL
@@ -16,11 +17,12 @@ displayVector :: (A.Point, A.Vector) -> IO()
 displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do 
      let points = [(xp, yp, zp::Double)
                   ,(xp + xv, yp + yv, zp + zv::Double)]
+     currentColor $= Color4 1 1 0 ( min 1 $ double2Float $ 1 * ( 1  / (1 + (4 * xp)^2 + (4 * yp)^2 + (4 * zp)^2)  ))
      renderAs Lines points
      flush
 
-
 --принимает векторное поле и список точек, в которых нужно нарисовать вектора, рисует их
+--можно спокойно менять "0.1"
 displayVecField :: (A.Point -> A.Vector) -> [A.Point] -> IO()
 
 displayVecField vecField ps = do
@@ -29,7 +31,6 @@ displayVecField vecField ps = do
     blend $= Enabled 
     blendFunc $= (SrcAlpha, OneMinusSrcAlpha)
     clear [ColorBuffer, DepthBuffer]
-    currentColor $= Color4 1 1 0 0.7
     mapM_ displayVector (zip ps $ map vecField ps)
     flush
 
