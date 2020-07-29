@@ -9,7 +9,7 @@ buildForceLineFromPoint :: Double -> (Point -> Vector) -> Point -> [Point]
 buildForceLineFromPoint a f x = x : buildForceLineFromPoint a f (nextPoint a f x) 
 
 nextPoint :: Double -> (Point -> Vector) -> Point -> Point
-nextPoint a f x = if a < veclength (f x) then (x .-> (a *. (normalize (f x)))) else  (x .-> (f x))   
+nextPoint a f x = x .-> (a *. (normalize (f x))) 
 
 buildFroVecField :: Double -> (Point -> Vector) -> ForceLines
 buildFroVecField = undefined
