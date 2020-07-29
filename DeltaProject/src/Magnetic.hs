@@ -3,7 +3,7 @@ module Magnetic where
 import Algebra	
 
 data Circuit = Circuit Double [Point]
-  deriving (Show, Eq, Generic, NFData)
+  deriving (Show, Eq)
 
 magicConst :: Double
 magicConst = (4 * pi * 10 ** (-7)) / (4 * pi)
@@ -19,10 +19,13 @@ getMagneticField (Circuit t r2 ) p = foldl (<+>) zero list
 
 
 getMagneticFieldSystem :: [Circuit] -> Point -> Vector
-getMagneticFieldSystem = undefined
+getMagneticFieldSystem [Circuit t r3] p = undefined
+-- not used: getMagneticField; circle; circleFromFunction; 
 
-circuitFromFunction :: Int -> Double -> (Double -> Point) -> Circuit
-circuitFromFunction n z c = Circuit (z) map (c) [0,(2*pi / n)..(2*pi)]
+
+
+circuitFromFunction :: Double -> Double -> (Double -> Point) -> Circuit
+circuitFromFunction n z c = Circuit (z) (map (c) [0,(2*pi / n)..(2*pi)])
 
 circle :: Double -> Point
 circle x = Point (sin x) (cos x) 0 
