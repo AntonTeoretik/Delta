@@ -9,7 +9,7 @@ magicConst :: Double
 magicConst = (4 * pi * 10 ** (-7)) / (4 * pi)
 
 getMagneticField :: Circuit -> Point -> Vector
-getMagneticField (Circuit t r2 ) p = foldl (<+>) zero list
+getMagneticField (Circuit t r2 ) p = (*.) magicConst (foldl (<+>) zero list)
   where
     list = zipWith (getElementaryInduction p) r2 ((tail r2) ++ [head r2])
 -- list :: [Vector] 
@@ -24,8 +24,10 @@ getMagneticFieldSystem [Circuit t r3] p = undefined
 
 
 
-circuitFromFunction :: Double -> Double -> (Double -> Point) -> Circuit
-circuitFromFunction n z c = Circuit (z) (map (c) [0,(2*pi / n)..(2*pi)])
+circuitFromFunction :: Int -> Double -> (Double -> Point) -> Circuit
+circuitFromFunction n z c = Circuit (z) (map (c) [0,(2*pi / realToFrac(n))..(2*pi)])
+-- double -> int
+
 
 circle :: Double -> Point
 circle x = Point (sin x) (cos x) 0 
