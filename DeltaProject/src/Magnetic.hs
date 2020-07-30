@@ -20,20 +20,18 @@ getMagneticField (Circuit t r2 ) p = (*.) t (foldl (<+>) zero list)
 
 getMagneticFieldSystem :: [Circuit] -> Point -> Vector
 getMagneticFieldSystem list p = foldl (<+>) zero (map (\t -> getMagneticField t p) list)
--- not used: getMagneticField; circle; circleFromFunction; 
 
 
 
 circuitFromFunction :: Int -> Double -> (Double -> Point) -> Circuit
 circuitFromFunction n z c = Circuit (z) (map (c) [0,(2*pi / realToFrac(n))..(2*pi)])
--- double -> int
 
 
 circle :: Double -> Point
 circle x = Point (sin x) (cos x) 0 
 
 getElementaryInduction :: Point -> Point -> Point -> Vector
-getElementaryInduction r0 r r1 = ((-->) r r1) <#> ((-->) r r0)
+getElementaryInduction r0 r r1 =  (((-->) r r1) <#> (normalize ((-->) r r0))) / ((veclength ((-->) r r0)) ** 2)
 
 
 
