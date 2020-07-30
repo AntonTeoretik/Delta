@@ -3,6 +3,7 @@
 module OrbitAroundVectors where
 import Graphics.Rendering.OpenGL
 import Graphics.UI.GLUT as GLUT
+import Diagrams.Transform
 
 import Algebra as A
 import OrbitPointOfView
@@ -33,6 +34,7 @@ display pPos = do
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
    displayVecField simpleField points
+   --moveTo (-1, 0, 0) renderSphere 0.1 10 10 
    --fillCircle 0.7
    swapBuffers
 

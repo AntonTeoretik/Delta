@@ -1,6 +1,7 @@
 module Circle where
 import PointsForRendering
 import Graphics.Rendering.OpenGL
+import Graphics.UI.GLUT.Objects
 
 circlePoints radius number = [let alpha = twoPi * i /number
                              in (radius * (sin (alpha)) , radius * (cos (alpha)), 0)
@@ -17,3 +18,4 @@ renderCircle r = displayPoints (circle r) LineLoop
 fillCircle r = do
     displayPoints (circle r) Polygon
 
+renderSphere r lat long = renderObject Solid $ Sphere' r lat long 

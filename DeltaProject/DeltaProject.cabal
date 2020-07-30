@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6d5ede89c414025bc6f90ac0fc036eb99be27e2ae33dfce2d0c84f1f5eaf5d4e
+-- hash: 8e7b1db48143a8445dcb254ebb00753a2f3945823b30db338097bd150a077b09
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -47,6 +47,7 @@ library
     , OpenGL
     , base >=4.7 && <5
     , deepseq
+    , diagrams-lib
   default-language: Haskell2010
 
 executable DeltaProject-exe
@@ -62,6 +63,7 @@ executable DeltaProject-exe
     , OpenGL
     , base >=4.7 && <5
     , deepseq
+    , diagrams-lib
   default-language: Haskell2010
 
 test-suite DeltaProject-test
@@ -78,4 +80,5 @@ test-suite DeltaProject-test
     , OpenGL
     , base >=4.7 && <5
     , deepseq
+    , diagrams-lib
   default-language: Haskell2010
