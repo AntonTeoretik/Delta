@@ -31,7 +31,7 @@ circle :: Double -> Point
 circle x = Point (sin x) (cos x) 0 
 
 getElementaryInduction :: Point -> Point -> Point -> Vector
-getElementaryInduction r0 r r1 =  (((-->) r r1) <#> (normalize ((-->) r r0))) / ((veclength ((-->) r r0)) ** 2)
+getElementaryInduction r0 r r1 =  (*.) ((veclength ((-->) r r0)) ** 2) (((-->) r r1) <#> (normalize ((-->) r r0)))  
 
 
 
