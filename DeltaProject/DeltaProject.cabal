@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: dc95522f18970b4d24e346246c6bc34e27c5d2b585e0cd94663093446e39f416
+-- hash: 818502f6064a635396ed31dbd721a6c124bd010d2a97cb295da3f5b632dca80e
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Algebra
+      Electric
       Lib
   other-modules:
       Paths_DeltaProject
