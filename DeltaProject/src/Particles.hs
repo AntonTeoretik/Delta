@@ -4,7 +4,7 @@ module Particles where
 import Algebra
 import Data.List    
     
-data Particle = Particle {position Point, velocity Vector, lifetime :: Integer, mass :: Double, electricCharge :: Double}
+data Particle = Particle {position :: Point, velocity :: Vector, lifetime :: Integer, mass :: Double, electricCharge :: Double}
 
 data SystemOfParticles = SystemOfParticles { listOfParticles :: [Particle], radiusOfRegion :: Double}
 
@@ -16,8 +16,8 @@ moveByField k f f' p = evaluateParticle k force p
                                         where 
                                           force = (getElectricForce f p) <+> (getMagneticForce f' p)  
 
-evaluateSystemOfParticles :: Double -> (Point -> Vector) -> (Point -> Vector) -> SystemParticles -> SystemParticles
-evaluateSystemOfParticles k f f' (SystemOfParticles a r) = filter (\(Particle _ _ l _ _ ) -> l > 0) (map (moveByField k f f' ) (a))
+evaluateSystemOfParticles :: Double -> (Point -> Vector) -> (Point -> Vector) -> SystemOfParticles -> SystemOfParticles
+evaluateSystemOfParticles k f f' (SystemOfParticles a r) =SystemOfParticles (filter (\(Particle _ _ l _ _ ) -> l > 0) (map (moveByField k f f' ) (a))) (r)
 
 addParticleToSystem :: Particle -> SystemOfParticles -> SystemOfParticles
 addParticleToSystem particle (SystemOfParticles a r) = SystemOfParticles (particle : a) r  
