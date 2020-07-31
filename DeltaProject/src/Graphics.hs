@@ -48,7 +48,7 @@ displayVecField vecField ps = do
 --    let updatedParticle = evaluateParticle (Particle (A.Point xp yp zp) (A.Vector xv yv zv) life mass charge)
 --    let end = (px $ position updatedParticle, py $ position updatedParticle, pz $ position updatedParticle)
 --    currentColor $= Color4 0 1 1 $ time updatedParticle
---    moveTo end $ renderSphere 0.1 10 10
+--    translate (renderSphere 0.1 10 10) (vector updatedParticle)
 --    flush
 --
 --displaySystemOfParticles :: [Particle] -> IO()

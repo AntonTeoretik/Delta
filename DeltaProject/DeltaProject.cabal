@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8e7b1db48143a8445dcb254ebb00753a2f3945823b30db338097bd150a077b09
+-- hash: a753a7cb8efe546fd5502c5fc0417ae3be18381c598df667b9e2b757d85acea8
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -32,12 +32,15 @@ library
       Example
       Graphics
       GraphicsExperimenting
+      Idle
       Lib
       OrbitAroundVectors
       OrbitPointOfView
       Perspective
       PointsForRendering
       StateUtil
+      TempParticles
+      VectorIdle
   other-modules:
       Paths_DeltaProject
   hs-source-dirs:

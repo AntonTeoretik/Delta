@@ -19,6 +19,7 @@ infixl 7 .->
 infixl 6 <#>
 
 infixl 8 *.
+infixl 8 /.
 infixl 4 <+>
 infixl 4 <->
 
@@ -37,7 +38,10 @@ infixl 4 <->
 (*.) d (Vector x y z) = Vector (x * d)
                                (y * d)
                                (z * d)
-
+(/.) :: Vector -> Double -> Vector
+(/.) (Vector x y z) d = Vector (x / d)
+                               (y / d)
+                               (z / d)
 -- Add, Sub
 (<+>) :: Vector -> Vector -> Vector
 (<+>) (Vector x1 y1 z1) (Vector x2 y2 z2) = Vector (x1 + x2)
