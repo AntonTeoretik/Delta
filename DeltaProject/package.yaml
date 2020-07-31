@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - deepseq
 - random
+- splitmix
 
 library:
   source-dirs: src

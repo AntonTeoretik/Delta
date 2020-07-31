@@ -17,3 +17,4 @@ extractPointfromCubeInSphere r (Point x y z) = x^2 + y^2 + z^2 <= r^2
 
 generatePointsInSphere :: Int -> Double -> [Point]
 generatePointsInSphere x r = filter (extractPointfromCubeInSphere r) (generatePointsInCube x r) 
+

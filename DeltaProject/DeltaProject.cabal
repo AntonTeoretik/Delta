@@ -1,10 +1,11 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
 -- hash: 1b3150832647fccbb3dca6f5231ad52f47e999d7e0c97419e9533a35b84a8a9e
+
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -30,6 +31,7 @@ library
       Algebra
       Lib
       Random
+      Magnetic
   other-modules:
       Paths_DeltaProject
   hs-source-dirs:
