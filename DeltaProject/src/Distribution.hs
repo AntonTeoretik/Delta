@@ -17,8 +17,8 @@ data Distr = Distr [(Cube, Double)]
 standardCube :: Cube --с стандартный куб  центром в начале координат и стороной 2.
 standardCube = Cube 2 (Point 0 0 0)
 
-buildDistibution :: Double  -> Cube -> (Point -> Double) -> Distr
-buildDistibution root (Cube length center ) f = let increment = length/(root*2.0) in
+buildDistribution :: Double  -> Cube -> (Point -> Double) -> Distr
+buildDistribution root (Cube length center ) f = let increment = length/(root*2.0) in
                                                  Distr [(Cube (increment*2) p , f p )| p <- listOfPoints root (Cube length center)]
 getCube :: Distr -> Double -> (Cube , Double)
 getCube (Distr d)  r =  d !! getNum (r*size) vectorSizes where 
