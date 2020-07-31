@@ -10,15 +10,16 @@ import Circle
 
 --import Particles
 
---preservingMatrix : push the current matrix staack down by one, duplicating the current matrix, execute the given action, and pop the current matrix stack (restoring it to its previous state)
+--preservingMatrix : push the current matrix stack down by one, duplicating the current matrix, execute the given action, and pop the current matrix stack (restoring it to its previous state)
 locally = preservingMatrix 
 
 --рисует вектор в 3D пространстве в данной точке
 displayVector :: (A.Point, A.Vector) -> IO() 
 
-displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do 
+displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do
+     let short = (*.) 0.2 $ A.normalize (A.Vector xv yv zv) 
      let points = [(xp, yp, zp::Double)
-                  ,(xp + xv, yp + yv, zp + zv::Double)]
+                  ,(xp + (vx short), yp + (vy short), zp + (vz short)::Double)]
      let x = double2Float (distance (A.Point xp yp zp) (A.Point (xp + xv) (yp + yv) (zp + zv)))
      --currentColor $= Color4 1 1 0 ( min 1 $ double2Float $ 1 * ( 1 / (1 + (2.5 * xp)^2 + (2.5 * yp)^2 + (2.5 * zp)^2)  ))
      --currentColor $= Color4 1 1 0 (if (x < 3) then (x / 3) else 1)

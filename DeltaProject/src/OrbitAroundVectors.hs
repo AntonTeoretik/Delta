@@ -30,7 +30,7 @@ main' = do
    keyboardMouseCallback $= Just (keyboard pPos)
    
    force <- new myForce --я не уверенна откуда сила берётся -> сама сделала
-   aParticle <- new myParticle
+   massParticle <- new myParticle
    particleSystem <- new myParticleSystem
    step <- new _STEP
    field1 <- new simpleField
@@ -48,7 +48,7 @@ display pPos particleSystem = do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
-   --p <- get aParticle
+   --p <- get massParticle
    ps <- get particleSystem
    --displayVecField simpleField points --рисует данное поле
    --translate$Vector3 (px $ TempParticles.position p) (py $  TempParticles.position p) (pz $ TempParticles.position p) -- рисует одну частицу
@@ -59,17 +59,23 @@ display pPos particleSystem = do
 keyboard pPos c _ _ _ = keyForPos pPos c
 
 shiftCircle :: Double -> Particle -> IO()
-shiftCircle r p = do
+{-shiftCircle r p = do
    translate$Vector3 (px $ TempParticles.position p) (py $  TempParticles.position p) (pz $ TempParticles.position p)
    fillCircle r
    translate $ Vector3 ((* (-1)) $ px $ TempParticles.position p) ((* (-1)) $ py $ TempParticles.position p) ((* (-1)) $ pz $ TempParticles.position p)
    
+-}
 
-idleParticle aParticle step force = do
-  p <- get aParticle
+shiftCircle r p = preservingMatrix $ 
+                     do 
+                        (translate $ Vector3 (px $ TempParticles.position p) (py $  TempParticles.position p) (pz $ TempParticles.position p))
+                        renderSphere r 10 10 
+
+idleParticle massParticle step force = do
+  p <- get massParticle
   s <- get step
   f <- get force
-  aParticle $= evaluateParticle s f p
+  massParticle $= evaluateParticle s f p
   postRedisplay Nothing
 
 

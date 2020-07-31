@@ -18,4 +18,6 @@ renderCircle r = displayPoints (circle r) LineLoop
 fillCircle r = do
     displayPoints (circle r) Polygon
 
-renderSphere r lat long = renderObject Solid $ Sphere' r lat long 
+renderSphere r lat long = do
+    currentColor $= Color4 1 0.2 1 1
+    renderObject Solid $ Sphere' r lat long 
