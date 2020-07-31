@@ -1,8 +1,9 @@
 module Distribution where
 import System.Random
+import Algebra
 
-data Point = Point { px :: Double, py :: Double, pz :: Double }
-    deriving (Eq, Show)
+-- data Point = Point { px :: Double, py :: Double, pz :: Double }
+--     deriving (Eq, Show)
 
 data Cube = Cube {
     length::Double, 
