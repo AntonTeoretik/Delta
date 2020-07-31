@@ -9,7 +9,7 @@ data Particle = Particle {position :: Point, velocity :: Vector, lifetime :: Int
 data SystemOfParticles = SystemOfParticles { listOfParticles :: [Particle], radiusOfRegion :: Double}
 
 evaluateParticle :: Double -> Vector -> Particle -> Particle
-evaluateParticle k f (Particle x1 v t m q tr len) = Particle (x1 .-> k *. v ) ((k *. (f /. m)) <+> v) (t - 1) m q (take len (x1 : tr)) len
+evaluateParticle k f (Particle x1 v t m q tr len) = Particle (x1 .-> k *. v ) ( ((k/m) *. f) <+> v ) (t - 1) m q (take len (x1 : tr)) len
 
 moveByField :: Double -> (Point -> Vector) -> (Point -> Vector) -> Particle -> Particle
 moveByField k f f' p = evaluateParticle k force p 
