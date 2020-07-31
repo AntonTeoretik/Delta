@@ -17,10 +17,11 @@ myParticle :: Particle
 myParticle = Particle (A.Point 0.5 0.7 0) (A.Vector 0 0.3 0) 100 20 1
 
 myParticleSystem :: SystemOfParticles
-myParticleSystem = SystemOfParticles [(Particle (A.Point 0.5 0.7 0) (A.Vector 0 0.3 0) 100 20 1) 
-              ,(Particle (A.Point 0.8 0.3 0.2) (A.Vector 0 0.4 0) 100 20 1)
-              ,(Particle (A.Point 0.2 0.6 (-0.2)) (A.Vector 0.2 0 0) 100 20 1)]
-                                10
+myParticleSystem = SystemOfParticles [(Particle (A.Point (-0.5) (- 0.9) 0) (A.Vector 0 0.3 0) 300 20 1) 
+              ,(Particle (A.Point 0.8 0.3 0) (A.Vector 0 0.4 0) 300 20 1)
+              ,(Particle (A.Point 0.2 0.6 0) (A.Vector 0.2 0 0) 200 20 1)
+              ,(Particle (A.Point (-0.3) 0.5 0) (A.Vector 0 0 0.2) 500 20 1)]
+                                1
 
 myForce :: A.Vector
 myForce = A.Vector 1 1 0 

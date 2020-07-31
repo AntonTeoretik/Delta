@@ -48,6 +48,7 @@ display pPos particleSystem = do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
+   --clear [DepthBuffer]
    --p <- get aParticle
    ps <- get particleSystem
    --displayVecField simpleField points --рисует данное поле
