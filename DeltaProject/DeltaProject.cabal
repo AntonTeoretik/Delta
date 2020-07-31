@@ -4,7 +4,8 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e71d8b878387d00b97cb22d2ae5a78f88258cb318f7992344a524050a3370bfc
+-- hash: 1b3150832647fccbb3dca6f5231ad52f47e999d7e0c97419e9533a35b84a8a9e
+
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -29,6 +30,7 @@ library
   exposed-modules:
       Algebra
       Lib
+      Random
       Magnetic
   other-modules:
       Paths_DeltaProject
@@ -37,6 +39,7 @@ library
   build-depends:
       base >=4.7 && <5
     , deepseq
+    , random
   default-language: Haskell2010
 
 executable DeltaProject-exe
@@ -50,6 +53,7 @@ executable DeltaProject-exe
       DeltaProject
     , base >=4.7 && <5
     , deepseq
+    , random
   default-language: Haskell2010
 
 test-suite DeltaProject-test
@@ -64,4 +68,5 @@ test-suite DeltaProject-test
       DeltaProject
     , base >=4.7 && <5
     , deepseq
+    , random
   default-language: Haskell2010
