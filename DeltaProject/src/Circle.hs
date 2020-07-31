@@ -20,4 +20,8 @@ fillCircle r = do
 
 renderSphere r lat long = do
     currentColor $= Color4 1 0.2 1 1
+    renderObject Solid $ Sphere' r lat long
+
+renderOtherSphere r lat long = do
+    currentColor $= Color4 0 1 0.3 1
     renderObject Solid $ Sphere' r lat long 

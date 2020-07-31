@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a753a7cb8efe546fd5502c5fc0417ae3be18381c598df667b9e2b757d85acea8
+-- hash: c56732c94fd5247a50e10a02aa9c8eba8f9d02aedb3912c5a0dc3f58856e5461
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -39,6 +39,7 @@ library
       Perspective
       PointsForRendering
       StateUtil
+      TempMasslessParticles
       TempParticles
       VectorIdle
   other-modules:
