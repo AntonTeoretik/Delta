@@ -48,7 +48,6 @@ display pPos particleSystem = do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
-   --clear [DepthBuffer]
    --p <- get aParticle
    ps <- get particleSystem
    --displayVecField simpleField points --рисует данное поле
@@ -63,6 +62,8 @@ shiftCircle :: Double -> Particle -> IO()
 shiftCircle r p = do
    translate$Vector3 (px $ TempParticles.position p) (py $  TempParticles.position p) (pz $ TempParticles.position p)
    fillCircle r
+   translate $ Vector3 ((* (-1)) $ px $ TempParticles.position p) ((* (-1)) $ py $ TempParticles.position p) ((* (-1)) $ pz $ TempParticles.position p)
+   
 
 idleParticle aParticle step force = do
   p <- get aParticle
