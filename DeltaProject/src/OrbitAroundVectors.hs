@@ -7,7 +7,9 @@ import Data.IORef
 
 import TempParticles as TMP
 import TempMasslessParticles as TVP --есть изменения к TempMasslessParticles - я дала имена элементам VirtualParticle и virtualSystemOfParticles
-import TempForceLines
+import TempForceLines --изменения: дала название элементу ForceLines, сделала чтобы в каждой силовой линии конечное количество точек
+import TempMagnetic
+import TempRandom
 
 import PointsForRendering
 import StateUtil
@@ -20,13 +22,17 @@ import Example
 
 locally = preservingMatrix
 
-_STEP = 0.01
---тут определить всякие переменные:
-_RADIUS = 0.1
-_CUBELENGTH = 1
-_POINTDIST = 0.01
-_FORCELINENUM = 100
-_GENERATECUBEPOINTS = 5
+_STEP = 0.01 --промежуток времени который проходит между шагами idle
+
+--тут определить всякие физические переменные:
+_RADIUS = 0.1 -- радиус сферы которая рисует частицы
+_CUBELENGTH = 1 -- длина стороны куба который для generatePointsFromCube
+_POINTDIST = 0.01 -- растояние между точками на силовой линии
+_FORCELINENUM = 100 -- количество силовых линий
+_GENERATECUBEPOINTS = 5 --что-то про generatePointsFromCube, не знаю что делает
+_CURRENT = 3 --ток в магнитном поле
+_NUMBER = 5 --число которое берёт circuitFromFunction - не знаю, что делает
+
 main' = do
    (progName,_) <- getArgsAndInitialize
    initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
@@ -44,6 +50,8 @@ main' = do
    pointDist <- new _POINTDIST
    forceLineNum <- new _FORCELINENUM
    generateCubePoints <- new _GENERATECUBEPOINTS
+   number <- new _NUMBER
+   current <- new _CURRENT
  
    points <- new myPoints
    force <- new myForce 
@@ -53,15 +61,18 @@ main' = do
    virtualParticle <- new myVirtualParticle
    vParticleSystem <- new myVirtualParticleSystem 
 
+   magnetCircuits <- new [circuitFromFunction _NUMBER _CURRENT TempMagnetic.circle]
+
    step <- new _STEP
    field1 <- new simpleField
    field2 <- new otherField
    --idleCallback $= Just (idleParticleSystem particleSystem step field1 field2) --двигает много массивных частиц + запоминает предыдущие положения
    --idleCallback $= Just (idleVPS vParticleSystem step field1) --двигает много виртуальных частиц
-   --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
+   --displayCallback $displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints= displayMass pPos particleSystem -- рисует массовые частицы и их следа
    --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
    --displayCallback $= displayField pPos field1 points -- рисует векторное поле
-   displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1 -- рисует силовые линии
+   --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1  -- рисует силовые линии
+   displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
 
@@ -104,6 +115,18 @@ displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints fiel
    f <- get field1
    renderForceLines cl pd fln gcp f --рисует силовые линии
    swapBuffers
+
+displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints = do
+   loadIdentity
+   setPointOfView pPos
+   clear [ColorBuffer, DepthBuffer]
+   mc <- get magnetCircuits
+   n <- get number
+   c <- get current
+   cl <- get cubeLength
+   gcp <- get generateCubePoints
+   displayVecField (getMagneticFieldSystem mc) (take 5 $ generatePointsInCube cl gcp)
+   swapBuffers 
 
 particleTrail :: TMP.Particle -> IO()
 particleTrail massParticle = do

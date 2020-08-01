@@ -43,6 +43,7 @@ library
       TempMasslessParticles
       TempParticles
       TempRandom
+      TempMagnetic
       VectorIdle
   other-modules:
       Paths_DeltaProject
