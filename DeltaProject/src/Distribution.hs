@@ -6,7 +6,7 @@ import Algebra
 --     deriving (Eq, Show)
 
 data Cube = Cube {
-    length::Double, 
+    length:: Double, 
     center:: Point
     }
     deriving (Show)
@@ -20,6 +20,8 @@ standardCube = Cube 2 (Point 0 0 0)
 buildDistribution :: Double  -> Cube -> (Point -> Double) -> Distr
 buildDistribution root (Cube length center ) f = let increment = length/(root*2.0) in
                                                  Distr [(Cube (increment*2) p , f p )| p <- listOfPoints root (Cube length center)]
+
+
 getCube :: Distr -> Double -> (Cube , Double)
 getCube (Distr d)  r =  d !! getNum (r*size) vectorSizes where 
                 size = sum vectorSizes
@@ -38,4 +40,10 @@ listOfPoints root (Cube l (Point x y z)) = [ Point (x1+x) (y1+y) (z1+z) | x1 <- 
                                   possiblePoints = {-map (+3)-}[( -1 ) * ( l / 2 - increment ), (-1)*(l/2 - 3*increment) .. (l/2 - increment)]
 
 getPointsWithDistribution :: Int -> Distr -> [Point]
-getPointsWithDistribution s d = map ( center . fst . getCube d ) ( randomRs (0 , 1) $ mkStdGen s )
+getPointsWithDistribution s d = map ( \(x,y,z,t) -> let (Cube l c, _) = getCube d t in c .-> Vector ( l*(x - 0.5) ) ( l*(y - 0.5) ) (l*(z - 0.5))  ) (groupByFours $ randomRs (0.0,1.0) $ mkStdGen s )
+
+
+groupByFours :: [a] -> [(a,a,a,a)]
+groupByFours (x : y : z : t : xs) = (x, y, z, t) : groupByFours xs
+groupByFours _ = []
+
