@@ -31,7 +31,7 @@ _POINTDIST = 0.01 -- растояние между точками на сило�
 _FORCELINENUM = 100 -- количество силовых линий
 _GENERATECUBEPOINTS = 5 --что-то про generatePointsFromCube, не знаю что делает
 _CURRENT = 3 --ток в магнитном поле
-_NUMBER = 5 --число которое берёт circuitFromFunction - не знаю, что делает
+_NUMBER = 100 --число которое берёт circuitFromFunction - не знаю, что делает
 
 main' = do
    (progName,_) <- getArgsAndInitialize
@@ -125,7 +125,8 @@ displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    c <- get current
    cl <- get cubeLength
    gcp <- get generateCubePoints
-   displayVecField (getMagneticFieldSystem mc) (take 10000 $ generatePointsInCube cl gcp)
+   displayVecField (getMagneticFieldSystem mc) (take 10000 $ generatePointsInSphere cl gcp)
+   mapM_ (renderAs LineLoop) (map pointToTriple $ map bigBoyList mc) 
    swapBuffers 
 
 particleTrail :: TMP.Particle -> IO()

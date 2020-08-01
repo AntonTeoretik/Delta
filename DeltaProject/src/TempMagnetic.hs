@@ -8,7 +8,7 @@ module TempMagnetic
 
 import Algebra
 
-data Circuit = Circuit Double [Point]
+data Circuit = Circuit {current :: Double, bigBoyList :: [Point]}
   deriving (Show, Eq)
 
 getMagneticField :: Circuit -> Point -> Vector
