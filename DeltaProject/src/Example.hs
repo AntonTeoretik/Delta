@@ -13,18 +13,45 @@ myParticle :: Particle
 myParticle = Particle (A.Point 0.5 0.7 0) (A.Vector 0 0.3 0) 100 20 1 [] 5
 
 myParticleSystem :: SystemOfParticles
-myParticleSystem = SystemOfParticles [(Particle (A.Point (-0.7) (- 0.5) 0) (A.Vector 0 0.3 0) 500 20 1 [] 300) 
+{-myParticleSystem = SystemOfParticles [(Particle (A.Point (-0.7) (- 0.5) 0) (A.Vector 0 0.3 0) 500 20 1 [] 300) 
               ,(Particle (A.Point 0.8 0.3 0) (A.Vector 0 0.4 0) 500 20 1 [] 300)
               ,(Particle (A.Point 0.2 0.6 0) (A.Vector 0.2 0 0) 500 20 1 [] 300)
-              ,(Particle (A.Point 0.1 0.5 0) (A.Vector 0.5 0 0.2) 500 20 1 [] 300)]
-                                1
+              ,(Particle (A.Point 0.1 0.5 0) (A.Vector 0.5 0 0.2) 500 20 1 [] 300)] 1
+-}
+
+myParticleSystem = SystemOfParticles [(Particle (A.Point x y z)
+                                                (A.Vector a b c)
+                                                life 
+                                                mass 
+                                                charge 
+                                                track 
+                                                maxTrack)       | x <- [(-1), (-0.5) .. 1] 
+                                                              , y <- [(-1), (-0.5) .. 1]
+                                                              , z <- [(-1), (-0.5) .. 1]
+                                                              , a <- take 11 (repeat 0)
+                                                              , b <- take 11 (repeat 0.1)
+                                                              , c <- take 11 (repeat 0)
+                                                              , life <- take 11 (repeat 300)
+                                                              , mass <- take 11 (repeat 20)
+                                                              , charge <- take 11 (repeat 1)
+                                                              , track <- take 11 (repeat [])
+                                                              , maxTrack <- take 11 (repeat 300)]
+                                     5   
+                              
 myVirtualParticle :: VirtualParticle
 myVirtualParticle = VirtualParticle (A.Point 0.5 0.7 0) 1.0
 
 myVirtualParticleSystem :: SystemOfVirtualParticles
-myVirtualParticleSystem = SystemOfVirtualParticles [(VirtualParticle (A.Point 0.5 0.7 0) 5),
+{-myVirtualParticleSystem = SystemOfVirtualParticles [(VirtualParticle (A.Point 0.5 0.7 0) 5),
                            (VirtualParticle (A.Point (-0.3) (-0.2) 0.4) 5),
                            (VirtualParticle (A.Point 0.8 0.1 (-1)) 5)]
+-}
+
+myVirtualParticleSystem = SystemOfVirtualParticles [(VirtualParticle (A.Point x y z) life) | x <- [(-1), (-0.5) .. 1]
+                        , y <- [(-1), (-0.5) .. 1]
+                        , z <- [(-1), (-0.5) .. 1]
+                        , life <- take 5 (repeat 10)]
+
 
 myForce :: A.Vector
 myForce = A.Vector 1 1 0 
