@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
 module TempParticles where
-import Algebra
+{-import Algebra
 import Data.List    
     
 data Particle = Particle {position :: Point, velocity :: Vector, lifetime :: Integer, mass :: Double, electricCharge :: Double, track :: [Point], maxlenght ::  Int}
@@ -32,3 +32,4 @@ getMagneticForce f (Particle {position = x1, velocity = x2, electricCharge = q})
 
 getElectricForce :: (Point -> Vector) -> Particle -> Vector
 getElectricForce f (Particle {position = x1, electricCharge = q}) = q *. f x1
+-}

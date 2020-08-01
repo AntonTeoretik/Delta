@@ -5,11 +5,11 @@ import Graphics.Rendering.OpenGL
 import Graphics.UI.GLUT as GLUT
 import Data.IORef
 
-import TempParticles as TMP
+import Particles as TMP
 import TempMasslessParticles as TVP --есть изменения к TempMasslessParticles - я дала имена элементам VirtualParticle и virtualSystemOfParticles
-import TempForceLines --изменения: дала название элементу ForceLines, сделала чтобы в каждой силовой линии конечное количество точек
-import TempMagnetic
-import TempRandom
+import ForceLines --изменения: дала название элементу ForceLines, сделала чтобы в каждой силовой линии конечное количество точек
+import Magnetic
+import Random
 
 import PointsForRendering
 import StateUtil
@@ -61,7 +61,7 @@ main' = do
    virtualParticle <- new myVirtualParticle
    vParticleSystem <- new myVirtualParticleSystem 
 
-   magnetCircuits <- new [circuitFromFunction _NUMBER _CURRENT TempMagnetic.circle]
+   magnetCircuits <- new [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
 
    step <- new _STEP
    field1 <- new simpleField

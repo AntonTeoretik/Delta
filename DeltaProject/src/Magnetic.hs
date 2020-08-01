@@ -1,13 +1,14 @@
 module Magnetic
   ( Circuit(..)
   , getMagneticField
+  , getMagneticFieldSystem
   , circuitFromFunction
   , circle
   ) where
 
 import Algebra
 
-data Circuit = Circuit Double [Point]
+data Circuit = Circuit {current :: Double, bigBoyList :: [Point]}
   deriving (Show, Eq)
 
 getMagneticField :: Circuit -> Point -> Vector

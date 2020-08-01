@@ -22,11 +22,8 @@ description:         Please see the README on GitHub at <https://github.com/gith
 dependencies:
 - base >= 4.7 && < 5
 - deepseq
-<<<<<<< HEAD
-=======
 - random
 - splitmix
->>>>>>> c82701fb88bd10a9bf518648a6e115be3da97b92
 - OpenGL
 - GLUT
 

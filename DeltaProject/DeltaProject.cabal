@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fd5b7553aabd3bc17879bac05d4568b54ff9fae09f02ec1b8fbda44b5012baa8
+-- hash: be76accba79a0402898a64b9e394257784bd605caf3668fa2f0b88c35bf097e6
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -30,20 +30,25 @@ library
       Algebra
       Circle
       Example
+      ForceLines
       Graphics
       GraphicsExperimenting
       Idle
       Lib
+      Magnetic
       OrbitAroundVectors
       OrbitPointOfView
+      Particles
       Perspective
+      PointAppearance
       PointsForRendering
+      Random
       StateUtil
       TempForceLines
+      TempMagnetic
       TempMasslessParticles
       TempParticles
       TempRandom
-      TempMagnetic
   other-modules:
       Paths_DeltaProject
   hs-source-dirs:
@@ -54,6 +59,7 @@ library
     , base >=4.7 && <5
     , deepseq
     , random
+    , splitmix
   default-language: Haskell2010
 
 executable DeltaProject-exe
@@ -69,6 +75,8 @@ executable DeltaProject-exe
     , OpenGL
     , base >=4.7 && <5
     , deepseq
+    , random
+    , splitmix
   default-language: Haskell2010
 
 test-suite DeltaProject-test
@@ -85,4 +93,6 @@ test-suite DeltaProject-test
     , OpenGL
     , base >=4.7 && <5
     , deepseq
+    , random
+    , splitmix
   default-language: Haskell2010

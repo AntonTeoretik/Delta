@@ -4,7 +4,7 @@ import Graphics
 import Graphics.Rendering.OpenGL
 import Algebra as A
 import PointsForRendering
-import TempParticles
+import Particles
 import TempMasslessParticles
 
 --почему-то у виртуальных частиц время двигается гораздо медленее чем у массовых
