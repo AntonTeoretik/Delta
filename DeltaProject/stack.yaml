@@ -34,12 +34,25 @@ packages:
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
 #
-# extra-deps:
-# - acme-missiles-0.3
-# - git: https://github.com/commercialhaskell/stack.git
+extra-deps:
+ - random-1.2.0@sha256:5ca8674e95c46c7eb90f520c26aea22d403625c97697275434afba66ebd32b05,5897
+ - splitmix-0.1@sha256:d50c4d0801a35be7875a040470c09863342514930c82a7d25780a6c2efc4fda9,5249
+ - GLUT-2.7.0.15@sha256:6eb9f21fb092bdf32f2fc0cbd314b8cbcf5b6dfe217b0aa64a6c724dd3a27460,24054
+ - OpenGL-3.0.3.0@sha256:811cf7cf2f325bde04efb021ef9b6a86a3b7383583f4bc6471b7a66c56ae889c,7985
+ - GLURaw-2.0.0.4@sha256:4cf1d891f1960a941ff315eae8e229cfd6e36fc793d6546d837e866d9de13f8d,2378
+ - ObjectName-1.1.0.1@sha256:de422b3691ffa4fee0112c750fccc3d2edcab6aa876a0ad71c364f1200f43b52,976
+ - OpenGLRaw-3.3.4.0@sha256:26685d56510ea0332cd8657c5d035c5b48a743725a512e561365ce072e60d27c,25510
+ - StateVar-1.2@sha256:9ab3e4a0e252d28bc2f799c83e0725c3e23e8d3b722cff0fdb9822e64b6c16ac,1413
+ - fixed-0.3@sha256:f76bb14011911bdd9d71ecc16ffc8000821adfefdd48b38f952b2484900f37f6,868
+ - half-0.3@sha256:48cc70e3cd42ccd13039b8d5865ca3aeffe526572aff7e2baf9cf9c28bc31eeb,1316
+
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 # extra-deps: []
+#extra-deps:
+#- random-1.2.0
+#- splitmix-0.1
+
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
