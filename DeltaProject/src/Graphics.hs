@@ -22,7 +22,7 @@ displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do
      let x = double2Float (distance (A.Point xp yp zp) (A.Point (xp + xv) (yp + yv) (zp + zv)))
      --currentColor $= Color4 1 1 0 ( min 1 $ double2Float $ 1 * ( 1 / (1 + (2.5 * xp)^2 + (2.5 * yp)^2 + (2.5 * zp)^2)  ))
      --currentColor $= Color4 1 1 0 (if (x < 3) then (x / 3) else 1)
-     currentColor $= Color4 (1 / (1 + x)) 1 0 (1 / (1 + x))
+     currentColor $= Color4 (1 / (1 + x)) 1 0 (1 - 1 / (1 + x))
 
      renderAs Lines points
      flush

@@ -44,7 +44,6 @@ library
       TempParticles
       TempRandom
       TempMagnetic
-      VectorIdle
   other-modules:
       Paths_DeltaProject
   hs-source-dirs:

@@ -126,6 +126,7 @@ displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    cl <- get cubeLength
    gcp <- get generateCubePoints
    displayVecField (getMagneticFieldSystem mc) (take 10000 $ generatePointsInSphere cl gcp)
+   currentColor $= Color4 0 0 1 1
    mapM_ (renderAs LineLoop) (map pointToTriple $ map bigBoyList mc) 
    swapBuffers 
 
