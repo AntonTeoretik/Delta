@@ -25,7 +25,7 @@ _STEP = 0.01
 _RADIUS = 0.1
 _CUBELENGTH = 1
 _POINTDIST = 0.01
-_FORCELINENUM = 10
+_FORCELINENUM = 100
 _GENERATECUBEPOINTS = 5
 main' = do
    (progName,_) <- getArgsAndInitialize
@@ -128,7 +128,7 @@ virtualShiftCircle r p = preservingMatrix $
                         renderOtherSphere r 10 10
 
 renderForceLines :: Double -> Double -> Int -> Int -> (Point -> Vector) -> IO()
-renderForceLines x a b i f = mapM_ (renderAs Lines) $ map pointToTriple $ bigList $ buildFromVecField x a b i f
+renderForceLines x a b i f = mapM_ (renderAs LineStrip) $ map pointToTriple $ bigList $ buildFromVecField x a b i f
 
 idleParticleSystem particleSystem step field1 field2 = do
   ps <- get particleSystem
