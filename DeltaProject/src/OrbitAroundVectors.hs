@@ -7,6 +7,7 @@ import Data.IORef
 
 import TempParticles as TMP
 import TempMasslessParticles as TVP --есть изменения к TempMasslessParticles - я дала имена элементам VirtualParticle и virtualSystemOfParticles
+import TempForceLines
 
 import PointsForRendering
 import StateUtil
@@ -20,7 +21,12 @@ import Example
 locally = preservingMatrix
 
 _STEP = 0.01
-
+--тут определить всякие переменные:
+_RADIUS = 0.1
+_CUBELENGTH = 1
+_POINTDIST = 0.01
+_FORCELINENUM = 10
+_GENERATECUBEPOINTS = 5
 main' = do
    (progName,_) <- getArgsAndInitialize
    initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
@@ -30,6 +36,15 @@ main' = do
    pPos <- new (90 :: Int, 270 :: Int, 2.0)
    keyboardMouseCallback $= Just (keyboard pPos)
    
+   -- все my__ берутся из Example.hs, я сделала случайным образом пару точек чтобы проверить что всё рисуется
+   -- когда будет имплементирован код который рандомно генерирует точки, надо будет это заменить
+
+   radius <- new _RADIUS
+   cubeLength <- new _CUBELENGTH
+   pointDist <- new _POINTDIST
+   forceLineNum <- new _FORCELINENUM
+   generateCubePoints <- new _GENERATECUBEPOINTS
+ 
    points <- new myPoints
    force <- new myForce 
    massParticle <- new myParticle
@@ -41,19 +56,23 @@ main' = do
    step <- new _STEP
    field1 <- new simpleField
    field2 <- new otherField
-   idleCallback $= Just (idleParticleSystem particleSystem step field1 field2) --двигает много массивных частиц + запоминает предыдущие положения
+   --idleCallback $= Just (idleParticleSystem particleSystem step field1 field2) --двигает много массивных частиц + запоминает предыдущие положения
    --idleCallback $= Just (idleVPS vParticleSystem step field1) --двигает много виртуальных частиц
-   displayCallback $= displayMass pPos particleSystem
+   --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
+   --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
+   --displayCallback $= displayField pPos field1 points -- рисует векторное поле
+   displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1 -- рисует силовые линии
    reshapeCallback $= Just reshape
    mainLoop
 
 displayField pPos field points= do
-   f <- field
-   ps <- points
+   f <- get field
+   ps <- get points
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
-   displayVecField f ps --рисует векторное поле 
+   displayVecField f ps --рисует векторное поле
+   swapBuffers 
 
 
 displayMass pPos particleSystem = do
@@ -65,12 +84,25 @@ displayMass pPos particleSystem = do
    mapM_ particleTrail (listOfParticles ps) --рисует след
    swapBuffers
 
-displayVirtual pPos vParticleSystem = do
+displayVirtual pPos vParticleSystem radius = do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
    vps <- get vParticleSystem
-   mapM_ (virtualShiftCircle 0.1) (listOfVirtualParticles vps) -- рисует виртуальные частицы
+   r <- get radius
+   mapM_ (virtualShiftCircle r) (listOfVirtualParticles vps) -- рисует виртуальные частицы
+   swapBuffers
+
+displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1 = do
+   loadIdentity
+   setPointOfView pPos
+   clear [ColorBuffer, DepthBuffer]
+   cl <- get cubeLength
+   pd <- get pointDist
+   fln <- get forceLineNum
+   gcp <- get generateCubePoints
+   f <- get field1
+   renderForceLines cl pd fln gcp f --рисует силовые линии
    swapBuffers
 
 particleTrail :: TMP.Particle -> IO()
@@ -95,7 +127,8 @@ virtualShiftCircle r p = preservingMatrix $
                         (translate $ Vector3 (px $ TVP.position p) (py $  TVP.position p) (pz $ TVP.position p))
                         renderOtherSphere r 10 10
 
-
+renderForceLines :: Double -> Double -> Int -> Int -> (Point -> Vector) -> IO()
+renderForceLines x a b i f = mapM_ (renderAs Lines) $ map pointToTriple $ bigList $ buildFromVecField x a b i f
 
 idleParticleSystem particleSystem step field1 field2 = do
   ps <- get particleSystem
