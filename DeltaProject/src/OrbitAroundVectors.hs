@@ -19,6 +19,7 @@ import StateUtil
 import Graphics
 import Circle
 import Example
+import Electric
 
 locally = preservingMatrix
 
@@ -32,6 +33,7 @@ _FORCELINENUM = 100 -- количество силовых линий
 _GENERATECUBEPOINTS = 5 --что-то про generatePointsFromCube, не знаю что делает
 _CURRENT = 3 --ток в магнитном поле
 _NUMBER = 100 --число которое берёт circuitFromFunction - не знаю, что делает
+_CHARGE = 1
 
 main' = do
    (progName,_) <- getArgsAndInitialize
@@ -52,7 +54,8 @@ main' = do
    generateCubePoints <- new _GENERATECUBEPOINTS
    number <- new _NUMBER
    current <- new _CURRENT
- 
+   charge <- new _CHARGE
+
    points <- new myPoints
    force <- new myForce 
    massParticle <- new myParticle
@@ -62,6 +65,8 @@ main' = do
    vParticleSystem <- new myVirtualParticleSystem 
 
    magnetCircuits <- new [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
+   
+   staticElectricParticles <- new $ take 1000 $ getSystemFromFuction _CHARGE (\(a, b) -> (A.Point a 1 1, b))
 
    step <- new _STEP
    field1 <- new simpleField
@@ -72,7 +77,8 @@ main' = do
    --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
    --displayCallback $= displayField pPos field1 points -- рисует векторное поле
    --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1  -- рисует силовые линии
-   displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
+   --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
+   displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
 
@@ -129,6 +135,15 @@ displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    currentColor $= Color4 0 0 1 1
    mapM_ (renderAs LineLoop) (map pointToTriple $ map bigBoyList mc) 
    swapBuffers 
+
+displayElectric pPos staticElectricParticles cubeLength generateCubePoints= do
+   loadIdentity
+   setPointOfView pPos
+   clear [ColorBuffer, DepthBuffer]
+   sep <- get staticElectricParticles
+   cl <- get cubeLength
+   gcp <- get generateCubePoints
+   displayVecField (getElectricFieldSystem sep) (take 10000 $ generatePointsInSphere cl gcp)
 
 particleTrail :: TMP.Particle -> IO()
 particleTrail massParticle = do
