@@ -4,9 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
-
--- hash: 72a240102be36a8c966ef4c71e4a35338e413a4a951fb8b8e90350a4ac8cd608
-
+-- hash: 09e06ba298fe77673c3146e6810717c972ea4a31066f62ce81112097239fc96e
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -29,19 +27,23 @@ source-repository head
 
 library
   exposed-modules:
+      Algebra
       Example
+      ForceLines
       Graphics
       Lib
-      Random
       Magnetic
       Particles
       PointsForRendering
+      Random
   other-modules:
       Paths_DeltaProject
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      GLUT
+    , OpenGL
+    , base >=4.7 && <5
     , deepseq
     , random
     , splitmix
@@ -56,6 +58,8 @@ executable DeltaProject-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       DeltaProject
+    , GLUT
+    , OpenGL
     , base >=4.7 && <5
     , deepseq
     , random
@@ -72,6 +76,8 @@ test-suite DeltaProject-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       DeltaProject
+    , GLUT
+    , OpenGL
     , base >=4.7 && <5
     , deepseq
     , random

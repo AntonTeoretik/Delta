@@ -4,7 +4,7 @@ import Graphics.UI.GLUT
 import Graphics.Rendering.OpenGL
 
 --renderInWindow opens window, displayFunction = creates window graphics
-
+{-
 mainFor primitiveShape
  = renderInWindow (displayMyPoints primitiveShape)
 
@@ -28,4 +28,4 @@ renderAs figure ps = renderPrimitive figure $ makeVertexes ps
 makeVertexes = mapM_ (\(x, y, z) -> vertex$Vertex3 x y z)
 
 
-
+-}

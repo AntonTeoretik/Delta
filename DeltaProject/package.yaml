@@ -24,6 +24,8 @@ dependencies:
 - deepseq
 - random
 - splitmix
+- OpenGL
+- GLUT
 
 library:
   source-dirs: src
