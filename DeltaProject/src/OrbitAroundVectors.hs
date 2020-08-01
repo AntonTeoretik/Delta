@@ -26,7 +26,7 @@ _STEP = 0.01 --промежуток времени который проходи
 
 --тут определить всякие физические переменные:
 _RADIUS = 0.1 -- радиус сферы которая рисует частицы
-_CUBELENGTH = 1 -- длина стороны куба который для generatePointsFromCube
+_CUBELENGTH = 5 -- длина стороны куба который для generatePointsFromCube
 _POINTDIST = 0.01 -- растояние между точками на силовой линии
 _FORCELINENUM = 100 -- количество силовых линий
 _GENERATECUBEPOINTS = 5 --что-то про generatePointsFromCube, не знаю что делает
@@ -125,7 +125,7 @@ displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    c <- get current
    cl <- get cubeLength
    gcp <- get generateCubePoints
-   displayVecField (getMagneticFieldSystem mc) (take 5 $ generatePointsInCube cl gcp)
+   displayVecField (getMagneticFieldSystem mc) (take 10000 $ generatePointsInCube cl gcp)
    swapBuffers 
 
 particleTrail :: TMP.Particle -> IO()
