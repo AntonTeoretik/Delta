@@ -11,12 +11,12 @@ circlePoints radius number = [let alpha = twoPi * i /number
 
 circle radius = circlePoints radius 100
 
-renderCircleApprox r n = displayPoints (circlePoints r n)
+--renderCircleApprox r n = displayPoints (circlePoints r n)
 
-renderCircle r = displayPoints (circle r) LineLoop
+renderCircle r = displayPoints LineLoop (circle r) 
 
 fillCircle r = do
-    displayPoints (circle r) Polygon
+    displayPoints Polygon (circle r) 
 
 renderSphere r lat long = do
     currentColor $= Color4 1 0.2 1 1

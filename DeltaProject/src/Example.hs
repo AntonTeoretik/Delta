@@ -7,22 +7,24 @@ import PointsForRendering
 import TempParticles
 import TempMasslessParticles
 
+--почему-то у виртуальных частиц время двигается гораздо медленее чем у массовых
+
 myParticle :: Particle
-myParticle = Particle (A.Point 0.5 0.7 0) (A.Vector 0 0.3 0) 100 20 1
+myParticle = Particle (A.Point 0.5 0.7 0) (A.Vector 0 0.3 0) 100 20 1 [] 5
 
 myParticleSystem :: SystemOfParticles
-myParticleSystem = SystemOfParticles [(Particle (A.Point (-0.5) (- 0.9) 0) (A.Vector 0 0.3 0) 300 20 1) 
-              ,(Particle (A.Point 0.8 0.3 0) (A.Vector 0 0.4 0) 300 20 1)
-              ,(Particle (A.Point 0.2 0.6 0) (A.Vector 0.2 0 0) 200 20 1)
-              ,(Particle (A.Point (-0.3) 0.5 0) (A.Vector 0 0 0.2) 500 20 1)]
+myParticleSystem = SystemOfParticles [(Particle (A.Point (-0.7) (- 0.5) 0) (A.Vector 0 0.3 0) 500 20 1 [] 300) 
+              ,(Particle (A.Point 0.8 0.3 0) (A.Vector 0 0.4 0) 500 20 1 [] 300)
+              ,(Particle (A.Point 0.2 0.6 0) (A.Vector 0.2 0 0) 500 20 1 [] 300)
+              ,(Particle (A.Point 0.1 0.5 0) (A.Vector 0.5 0 0.2) 500 20 1 [] 300)]
                                 1
 myVirtualParticle :: VirtualParticle
 myVirtualParticle = VirtualParticle (A.Point 0.5 0.7 0) 1.0
 
 myVirtualParticleSystem :: SystemOfVirtualParticles
-myVirtualParticleSystem = SystemOfVirtualParticles [(VirtualParticle (A.Point 0.5 0.7 0) 300),
-                           (VirtualParticle (A.Point (-0.3) (-0.2) 0.4) 300),
-                           (VirtualParticle (A.Point 0.8 0.1 (-1)) 300)]
+myVirtualParticleSystem = SystemOfVirtualParticles [(VirtualParticle (A.Point 0.5 0.7 0) 5),
+                           (VirtualParticle (A.Point (-0.3) (-0.2) 0.4) 5),
+                           (VirtualParticle (A.Point 0.8 0.1 (-1)) 5)]
 
 myForce :: A.Vector
 myForce = A.Vector 1 1 0 

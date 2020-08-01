@@ -13,9 +13,9 @@ renderInWindow displayFunction = do
    mainLoop
 
 --renderAs but monad form and actually creates the graphics
-displayPoints :: [(GLdouble, GLdouble, GLdouble)] -> PrimitiveMode -> IO()
+displayPoints :: PrimitiveMode -> [(GLdouble, GLdouble, GLdouble)] -> IO()
 
-displayPoints points primitiveShape = do
+displayPoints primitiveShape points = do
    clear [DepthBuffer]
    currentColor $= Color4 1 1 0 0
    renderAs primitiveShape points

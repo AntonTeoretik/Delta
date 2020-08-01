@@ -8,7 +8,6 @@ import PointsForRendering
 import OrbitPointOfView
 import Circle
 
---import Particles
 
 --preservingMatrix : push the current matrix stack down by one, duplicating the current matrix, execute the given action, and pop the current matrix stack (restoring it to its previous state)
 locally = preservingMatrix 
@@ -29,7 +28,6 @@ displayVector (A.Point xp yp zp, A.Vector xv yv zv) = do
      flush
 
 --принимает векторное поле и список точек, в которых нужно нарисовать вектора, рисует их
---можно спокойно менять "0.1"
 displayVecField :: (A.Point -> A.Vector) -> [A.Point] -> IO()
 
 displayVecField vecField ps = do
@@ -41,27 +39,6 @@ displayVecField vecField ps = do
     mapM_ displayVector (zip ps $ map vecField ps)
     flush
 
---принимает массовую частицу и рисует её (делает более прозрачной пока время двигается)
---displayParticle :: (Particle (A.Point xp yp zp) (A.Vector xv yv zv) life mass charge) -> IO()
-
---displayParticle myParticle = do
---    let start = (px $ position myParticle, py $ position myParticle, pz $ position myParticle :: Double)
---    let updatedParticle = evaluateParticle (Particle (A.Point xp yp zp) (A.Vector xv yv zv) life mass charge)
---    let end = (px $ position updatedParticle, py $ position updatedParticle, pz $ position updatedParticle)
---    currentColor $= Color4 0 1 1 $ time updatedParticle
---    translate (renderSphere 0.1 10 10) (vector updatedParticle)
---    flush
---
---displaySystemOfParticles :: [Particle] -> IO()
---
---displaySystemOfParticles particles = do
---    initialDisplayMode $= [RGBAMode, WithAlphaComponent, WithDepthBuffer]
---    depthFunc $= Just Less
---    blend $= Enabled
---    blendFunc $= (SrcAlpha, OneMinusSrcAlpha)
---    clear [ColorBuffer, DepthBuffer]
---    mapM_ displayParticle particles
---    flush
 
 ---- создает окно и устанавливает всю конфигурацию (матрицы перспективы, прозрачность, положение камеры) и устанавливает данную функцию в качестве отрисовывающей
 createMyWindow :: IO() -> IO()

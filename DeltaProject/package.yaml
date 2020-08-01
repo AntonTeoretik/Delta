@@ -24,7 +24,6 @@ dependencies:
 - deepseq
 - OpenGL
 - GLUT
-- diagrams-lib
 
 library:
   source-dirs: src

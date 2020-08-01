@@ -6,7 +6,7 @@ import Graphics.UI.GLUT as GLUT
 import Data.IORef
 
 import TempParticles as TMP
-import TempMasslessParticles as TVP
+import TempMasslessParticles as TVP --есть изменения к TempMasslessParticles - я дала имена элементам VirtualParticle и virtualSystemOfParticles
 
 import PointsForRendering
 import StateUtil
@@ -41,13 +41,11 @@ main' = do
    step <- new _STEP
    field1 <- new simpleField
    field2 <- new otherField
-   idleCallback $= Just (idleParticleSystem particleSystem step field1 field2) --двигает много массивных частиц
-   idleCallback $= Just (idleVPS vParticleSystem step field1)
-   displayCallback $= displayVirtual pPos vParticleSystem
+   idleCallback $= Just (idleParticleSystem particleSystem step field1 field2) --двигает много массивных частиц + запоминает предыдущие положения
+   --idleCallback $= Just (idleVPS vParticleSystem step field1) --двигает много виртуальных частиц
+   displayCallback $= displayMass pPos particleSystem
    reshapeCallback $= Just reshape
    mainLoop
-
---display :: (HasGetter t (a, b, GLdouble), Integral b, Integral a) => t -> IO()
 
 displayField pPos field points= do
    f <- field
@@ -55,7 +53,7 @@ displayField pPos field points= do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
-   displayVecField f ps 
+   displayVecField f ps --рисует векторное поле 
 
 
 displayMass pPos particleSystem = do
@@ -64,6 +62,7 @@ displayMass pPos particleSystem = do
    clear [ColorBuffer, DepthBuffer]
    ps <- get particleSystem
    mapM_ (massShiftCircle 0.1) (listOfParticles ps) --рисует массовые частицы 
+   mapM_ particleTrail (listOfParticles ps) --рисует след
    swapBuffers
 
 displayVirtual pPos vParticleSystem = do
@@ -74,6 +73,13 @@ displayVirtual pPos vParticleSystem = do
    mapM_ (virtualShiftCircle 0.1) (listOfVirtualParticles vps) -- рисует виртуальные частицы
    swapBuffers
 
+particleTrail :: TMP.Particle -> IO()
+particleTrail massParticle = do
+   renderAs Lines $ pointToTriple $ track massParticle
+ 
+pointToTriple points = map pT points
+
+pT (A.Point x y z) = (x, y, z)
 
 keyboard pPos c _ _ _ = keyForPos pPos c
 
@@ -88,6 +94,8 @@ virtualShiftCircle r p = preservingMatrix $
                      do
                         (translate $ Vector3 (px $ TVP.position p) (py $  TVP.position p) (pz $ TVP.position p))
                         renderOtherSphere r 10 10
+
+
 
 idleParticleSystem particleSystem step field1 field2 = do
   ps <- get particleSystem
