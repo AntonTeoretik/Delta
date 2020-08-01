@@ -4,7 +4,9 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
+
 -- hash: 72a240102be36a8c966ef4c71e4a35338e413a4a951fb8b8e90350a4ac8cd608
+
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -30,6 +32,7 @@ library
       Example
       Graphics
       Lib
+      Random
       Magnetic
       Particles
       PointsForRendering
