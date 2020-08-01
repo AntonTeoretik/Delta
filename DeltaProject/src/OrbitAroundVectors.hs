@@ -144,6 +144,7 @@ displayElectric pPos staticElectricParticles cubeLength generateCubePoints= do
    cl <- get cubeLength
    gcp <- get generateCubePoints
    displayVecField (getElectricFieldSystem sep) (take 10000 $ generatePointsInSphere cl gcp)
+   swapBuffers
 
 particleTrail :: TMP.Particle -> IO()
 particleTrail massParticle = do
