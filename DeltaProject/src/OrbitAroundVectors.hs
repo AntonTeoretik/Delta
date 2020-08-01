@@ -31,7 +31,7 @@ _CUBELENGTH = 5 -- длина стороны куба который для gene
 _POINTDIST = 0.01 -- растояние между точками на силовой линии
 _FORCELINENUM = 100 -- количество силовых линий
 _GENERATECUBEPOINTS = 5 --что-то про generatePointsFromCube, не знаю что делает
-_CURRENT = 3 --ток в магнитном поле
+_CURRENT = (-3) --ток в магнитном поле
 _NUMBER = 100 --число которое берёт circuitFromFunction - не знаю, что делает
 _CHARGE = 1
 
@@ -66,16 +66,17 @@ main' = do
 
    magnetCircuits <- new [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
    
-   staticElectricParticles <- new $ take 1000 $ getSystemFromFuction _CHARGE (\(a, b) -> (A.Point a 1 1, b))
+   staticElectricParticles <- new $ [ StaticElectricParticle (A.Point (-1) 0 0) 1, StaticElectricParticle (A.Point 1 0 0) (-1) ]
 
    step <- new _STEP
    field1 <- new simpleField
    field2 <- new otherField
    field3 <- new $ getMagneticFieldSystem [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
+   field4 <- new $ getElectricFieldSystem [StaticElectricParticle (A.Point (-1) 0 0) 1, StaticElectricParticle (A.Point 1 0 0) (-1) ]
 
-   --idleCallback $= Just (idleParticleSystem particleSystem step field1 field2) --двигает много массивных частиц + запоминает предыдущие положения
+   --idleCallback $= Just (idleParticleSystem particleSystem step field4 field3) --двигает много массивных частиц + запоминает предыдущие положения
    idleCallback $= Just (idleVPS vParticleSystem step field3) --двигает много виртуальных частиц
-   --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
+  -- displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
    displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
    --displayCallback $= displayField pPos field1 points -- рисует векторное поле
    --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1  -- рисует силовые линии
