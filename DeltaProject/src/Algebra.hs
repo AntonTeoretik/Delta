@@ -73,3 +73,5 @@ normalize v =
     case d of
         0 -> zero
         _ -> (1/d) *. v
+
+

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 02bb881880715e111b3722f1ab048c215f8fce50e200c0f4d2bc679a0790b09f
+-- hash: f89f7eab5056d074fd6fc846a2a11e245885769c88ce9ae7059ca763d515f9b4
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Circle
       Electric
       Example
+      FinalGraphics
       ForceLines
       Graphics
       GraphicsExperimenting
