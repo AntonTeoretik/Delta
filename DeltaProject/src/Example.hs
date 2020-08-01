@@ -30,15 +30,15 @@ myParticleSystem = SystemOfParticles [(Particle (A.Point x y z)
                                                                   | x <- [(-1), (-0.5) .. 1]
                                                                 , y <- [(-1), (-0.5) .. 1]
                                                                 , z <- [(-1), (-0.5) .. 1]
-                                                                , a <- take 5 (return 0)
-                                                                , b <- take 5 (return 0)
-                                                                , c <- take 5 (return 0)
-                                                                , lifetime <- take 5 (return 300)
-                                                                , mass <- take 5 (return 20)
-                                                                , charge <- take 5 (return 1)
+                                                                , a <- take 5 (return 0.1)
+                                                                , b <- take 5 (return 0.1)
+                                                                , c <- take 5 (return 0.1)
+                                                                , lifetime <- take 5 (return 1000)
+                                                                , mass <- take 5 (return 1000)
+                                                                , charge <- take 5 (return 100)
                                                                 , track <- take 5 (return [])
                                                                 , maxTrack <- take 5 (return 300)]   
-                                     5
+                                     9
                                                
 myVirtualParticle :: VirtualParticle
 myVirtualParticle = VirtualParticle (A.Point 0.5 0.7 0) 1.0
