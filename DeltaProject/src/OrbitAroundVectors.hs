@@ -26,7 +26,7 @@ locally = preservingMatrix
 _STEP = 0.01 --промежуток времени который проходит между шагами idle
 
 --тут определить всякие физические переменные:
-_RADIUS = 0.1 -- радиус сферы которая рисует частицы
+_RADIUS = 0.08 -- радиус сферы которая рисует частицы
 _CUBELENGTH = 5 -- длина стороны куба который для generatePointsFromCube
 _POINTDIST = 0.01 -- растояние между точками на силовой линии
 _FORCELINENUM = 100 -- количество силовых линий
@@ -71,14 +71,16 @@ main' = do
    step <- new _STEP
    field1 <- new simpleField
    field2 <- new otherField
+   field3 <- new $ getMagneticFieldSystem [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
+
    --idleCallback $= Just (idleParticleSystem particleSystem step field1 field2) --двигает много массивных частиц + запоминает предыдущие положения
-   --idleCallback $= Just (idleVPS vParticleSystem step field1) --двигает много виртуальных частиц
-   --displayCallback $displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints= displayMass pPos particleSystem -- рисует массовые частицы и их следа
-   --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
+   idleCallback $= Just (idleVPS vParticleSystem step field3) --двигает много виртуальных частиц
+   --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
+   displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
    --displayCallback $= displayField pPos field1 points -- рисует векторное поле
    --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1  -- рисует силовые линии
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
-   displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
+   --displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
 

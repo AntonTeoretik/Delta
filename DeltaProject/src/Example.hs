@@ -22,9 +22,15 @@ myVirtualParticle :: VirtualParticle
 myVirtualParticle = VirtualParticle (A.Point 0.5 0.7 0) 1.0
 
 myVirtualParticleSystem :: SystemOfVirtualParticles
-myVirtualParticleSystem = SystemOfVirtualParticles [(VirtualParticle (A.Point 0.5 0.7 0) 5),
+{-myVirtualParticleSystem = SystemOfVirtualParticles [(VirtualParticle (A.Point 0.5 0.7 0) 5),
                            (VirtualParticle (A.Point (-0.3) (-0.2) 0.4) 5),
                            (VirtualParticle (A.Point 0.8 0.1 (-1)) 5)]
+-}
+myVirtualParticleSystem = SystemOfVirtualParticles [(VirtualParticle (A.Point x y z) life) | x <- [(-1), (-0.5) .. 1]
+                                                                                        , y <- [(-1), (-0.5) .. 1]
+                                                                                        , z <- [(-1), (-0.5) .. 1]
+                                                                                        , life <- take 5 (repeat 20)]
+                                                   
 
 myForce :: A.Vector
 myForce = A.Vector 1 1 0 

@@ -17,11 +17,8 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-<<<<<<< HEAD
+
 resolver: lts-16.7
-=======
-resolver: lts-14.27
->>>>>>> 9b3ffcf7c159e99199bd4908eba548135f3ba19b
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
