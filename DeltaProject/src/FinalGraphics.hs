@@ -52,9 +52,9 @@ showPhysicalSystem :: SceneParameters ->
                       [StaticElectricParticle] -> -- тут мб другое название, не помню
                       [Circuit] -> 
                       IO () -- рисует всю систему и запускает движение массивных частиц
---showAnyField = undefined
+showAnyField = undefined
 showPhysicalSystem = undefined
-
+{-
 showAnyField (SceneParameters randomGenValue domainRadius) (ShowVectors numVectors lengthVectors) field = do
    (progName,_) <- getArgsAndInitialize
    initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
@@ -133,4 +133,4 @@ showAnyField (SceneParameters randomGenValue domainRadius) (ShowVectors numVecto
    --displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
--}
+-}-}
