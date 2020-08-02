@@ -27,14 +27,29 @@ import Constants
 locally = preservingMatrix
 
 
+<<<<<<< HEAD
 
+=======
+--тут определить всякие физические переменные:
+_RADIUS = 0.08 -- радиус сферы которая рисует частицы
+_CUBELENGTH = 5 -- длина стороны куба который для generatePointsFromCube
+_POINTDIST = 0.01 -- растояние между точками на силовой линии
+_FORCELINENUM = 100 -- количество силовых линий
+_GENERATECUBEPOINTS = 10 --что-то про generatePointsFromCube, не знаю что делает
+_CURRENT = (-3) --ток в магнитном поле
+_NUMBER = 100 --число которое берёт circuitFromFunction - не знаю, что делает
+_CHARGE = 1
+_NEWNUMPOINTS = 5 --сколько новых виртуальных частиц добавляется каждый шаг
+>>>>>>> acc83d834946d78fd718ae938c67acba027f87a4
 main' = do
    (progName,_) <- getArgsAndInitialize
    initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
    createWindow progName
+   windowSize $= Size 1500 700
+
    depthFunc $= Just Less
 
-   pPos <- new (90 :: Int, 270 :: Int, 2.0)
+   pPos <- new (1000 :: Int, 1000 :: Int, 2.0)
    keyboardMouseCallback $= Just (keyboard pPos)
    
    -- все my__ берутся из Example.hs, я сделала случайным образом пару точек чтобы проверить что всё рисуется
@@ -48,6 +63,7 @@ main' = do
    number <- new _NUMBER
    current <- new _CURRENT
    charge <- new _CHARGE
+   newNumPoints <- new _NEWNUMPOINTS
     
    newPoints <- new $ generatePointsInSphere _GENERATECUBEPOINTS _CUBELENGTH
 
@@ -68,14 +84,23 @@ main' = do
    field1 <- new simpleField
    field2 <- new otherField
    field3 <- new $ getMagneticFieldSystem [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
+<<<<<<< HEAD
    field4 <- new $ getElectricFieldSystem [StaticElectricParticle (A.Point (-2) (-1) 0) (-3), StaticElectricParticle (A.Point 0 2 0) (4), StaticElectricParticle (A.Point 2 0 0) (-1)]
+=======
+   field4 <- new $ getElectricFieldSystem [StaticElectricParticle (A.Point (-1) 0 0) 1, StaticElectricParticle (A.Point 1 0 0) (-1) ]
+    
+>>>>>>> acc83d834946d78fd718ae938c67acba027f87a4
 
    --idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
-   --idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints) --двигает много виртуальных частиц
+   idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints newNumPoints) --двигает много виртуальных частиц
    --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
-   --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
+   displayCallback $= displayVirtual pPos vParticleSystem -- рисует виртуальные частицы
    --displayCallback $= displayField pPos field3 points -- рисует векторное поле
+<<<<<<< HEAD
    displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field3   -- рисует силовые линии
+=======
+   --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
+>>>>>>> acc83d834946d78fd718ae938c67acba027f87a4
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    --displayCallback $= displayElectric pPos radius staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
@@ -196,15 +221,27 @@ idleParticleSystem particleSystem step field field' newPoints = do
   particleSystem $= TMP.evaluateSystemOfParticles s f1 f2 newps
   newPoints $= tail newpoints
   postRedisplay Nothing
+
 tV (x, y, z) = (A.Vector x y z)
-idleVPS vParticleSystem step field1 newPoints = do 
+
+addXParticles :: Int -> ([A.Point], SystemOfVirtualParticles) -> ([A.Point], SystemOfVirtualParticles)
+
+addXParticles numPoints (newPoints, svp) | numPoints == 0  = (newPoints, svp)
+                                         | otherwise       = addXParticles (numPoints - 1) (tail newPoints, TVP.addVirtualParticleToSVP (VirtualParticle (head newPoints) 20) svp)
+
+idleVPS vParticleSystem step field1 newPoints newNumPoints = do 
   vps <- get vParticleSystem
   s <- get step
   f1 <- get field1
   --cl <- get cubeLength
   --gcp <- get generateCubePoints
   newpoints <- get newPoints
-  let newvps = TVP.addVirtualParticleToSVP (VirtualParticle (head newpoints) 20) vps 
-  vParticleSystem $= TVP.evaluateSVP s f1 newvps
-  newPoints $= tail newpoints
+  newnumpoints <- get newNumPoints
+  --let newvps = TVP.addVirtualParticleToSVP (VirtualParticle (head newpoints) 20) vps 
+  let newvps = addXParticles newnumpoints (newpoints, vps)
+  vParticleSystem $= TVP.evaluateSVP s f1 (snd newvps)
+  newPoints $= fst newvps
   postRedisplay Nothing
+
+
+
