@@ -83,12 +83,12 @@ main' = do
     
 
    --idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
-   idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints newNumPoints) --двигает много виртуальных частиц
+   --idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints newNumPoints) --двигает много виртуальных частиц
    --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
-   displayCallback $= displayVirtual pPos vParticleSystem -- рисует виртуальные частицы
+   --displayCallback $= displayVirtual pPos vParticleSystem -- рисует виртуальные частицы
    --displayCallback $= displayField pPos field3 points -- рисует векторное поле
    --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
-   --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
+   displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    --displayCallback $= displayElectric pPos radius staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
@@ -142,7 +142,7 @@ displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    cl <- get cubeLength
    gcp <- get generateCubePoints
    --displayVecField (getMagneticFieldSystem mc) (take 10000 $ generatePointsInSphere cl gcp)
-   displayVecField (getMagneticFieldSystem mc) (take 8000 $ getPointsWithDistribution 8 $ Distr [((Distribution.Cube 8 (A.Point 0 0 0)), 10)])
+   displayVecField (getMagneticFieldSystem mc) (take 8000 $ getPointsWithDistribution 8 $ buildDistribution 8 (Distribution.Cube cl (A.Point 0 0 0)) (veclength . getMagneticFieldSystem mc))
    currentColor $= Color4 0 0 1 1
    mapM_ (renderAs LineLoop) (map pointToTriple $ map bigBoyList mc) 
    swapBuffers 
