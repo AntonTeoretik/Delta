@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 540f956fc34f5e64d288bfa36a6b552df80f4e90d0998adfaaf07adc87489f4e
+-- hash: c7d1eaf5a3c115699a9486a59ec467639709e3e942dedb81238ce802592c45d3
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -47,6 +47,7 @@ library
       PointsForRendering
       Random
       StateUtil
+      TempDistribution
       TempForceLines
       TempMagnetic
       TempMasslessParticles

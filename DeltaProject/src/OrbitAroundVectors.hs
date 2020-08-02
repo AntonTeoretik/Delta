@@ -10,6 +10,7 @@ import TempMasslessParticles as TVP --есть изменения к TempMassles
 import ForceLines --изменения: дала название элементу ForceLines, сделала чтобы в каждой силовой линии конечное количество точек
 import Magnetic
 import Random
+import Distribution
 
 import PointsForRendering
 import StateUtil
@@ -30,7 +31,7 @@ _RADIUS = 0.08 -- радиус сферы которая рисует части
 _CUBELENGTH = 5 -- длина стороны куба который для generatePointsFromCube
 _POINTDIST = 0.01 -- растояние между точками на силовой линии
 _FORCELINENUM = 100 -- количество силовых линий
-_GENERATECUBEPOINTS = 5 --что-то про generatePointsFromCube, не знаю что делает
+_GENERATECUBEPOINTS = 10 --что-то про generatePointsFromCube, не знаю что делает
 _CURRENT = (-3) --ток в магнитном поле
 _NUMBER = 100 --число которое берёт circuitFromFunction - не знаю, что делает
 _CHARGE = 1
@@ -78,13 +79,13 @@ main' = do
    field4 <- new $ getElectricFieldSystem [StaticElectricParticle (A.Point (-1) 0 0) 1, StaticElectricParticle (A.Point 1 0 0) (-1) ]
 
    --idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
-   idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints) --двигает много виртуальных частиц
+   --idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints) --двигает много виртуальных частиц
    --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
-   displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
+   --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
    --displayCallback $= displayField pPos field1 points -- рисует векторное поле
    --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1  -- рисует силовые линии
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
-   --displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
+   displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
 
@@ -137,10 +138,15 @@ displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    c <- get current
    cl <- get cubeLength
    gcp <- get generateCubePoints
-   displayVecField (getMagneticFieldSystem mc) (take 10000 $ generatePointsInSphere cl gcp)
+   --displayVecField (getMagneticFieldSystem mc) (take 10000 $ generatePointsInSphere cl gcp)
+   displayVecField (getMagneticFieldSystem mc) (take 8000 $ getPointsWithDistribution 8 $ Distr [((Distribution.Cube 8 (A.Point 0 0 0)), 10)])
    currentColor $= Color4 0 0 1 1
    mapM_ (renderAs LineLoop) (map pointToTriple $ map bigBoyList mc) 
    swapBuffers 
+
+
+
+
 
 displayElectric pPos staticElectricParticles cubeLength generateCubePoints= do
    loadIdentity
@@ -149,7 +155,10 @@ displayElectric pPos staticElectricParticles cubeLength generateCubePoints= do
    sep <- get staticElectricParticles
    cl <- get cubeLength
    gcp <- get generateCubePoints
-   displayVecField (getElectricFieldSystem sep) (take 10000 $ generatePointsInSphere cl gcp)
+   --displayVecField (getElectricFieldSystem sep) (take 10000 $ generatePointsInSphere cl gcp)
+   displayVecField (getElectricFieldSystem sep) (take 8000 $ getPointsWithDistribution 8 $ Distr [((Distribution.Cube 8 (A.Point 0 0 0)), 10)])
+   currentColor $= Color4 0 0 1 1
+   renderAs LineLoop $ pointToTriple $ map Electric.position sep
    swapBuffers
 
 particleTrail :: TMP.Particle -> IO()
