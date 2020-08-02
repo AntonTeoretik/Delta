@@ -69,9 +69,12 @@ simpleField (A.Point x y z) = (*.) 0.4 $ (A.Vector x y z) <#> (A.Vector 1 0 0)
 otherField :: A.Point -> A.Vector
 otherField (A.Point x y z) = (*.) 0.4 $ (A.Vector x y z) <#> (A.Vector 0 1 0)
 
+{-
 myPoints = [(A.Point x y z) | x <- [(-1), (-0.9) .. 1]
                           , y <- [(-1), (-0.9) .. 1]
                           , z <- [(-1), (-0.9) .. 1]]
+-}
+
 
 
 {-

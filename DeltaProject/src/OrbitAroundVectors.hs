@@ -55,7 +55,7 @@ main' = do
    newPoints <- new $ generatePointsInSphere _GENERATECUBEPOINTS _CUBELENGTH
 
 
-   points <- new myPoints
+   points <- new _FIELDPOINTS
    force <- new myForce 
    massParticle <- new myParticle
    particleSystem <- new myParticleSystem
@@ -77,11 +77,11 @@ main' = do
    --idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints newNumPoints) --двигает много виртуальных частиц
    --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
    --displayCallback $= displayVirtual pPos vParticleSystem -- рисует виртуальные частицы
-   --displayCallback $= displayField pPos field3 points -- рисует векторное поле
+   displayCallback $= displayField pPos field3 points -- рисует векторное поле
    --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
 
-   displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
+   --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
 
    --displayCallback $= displayElectric pPos radius staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape

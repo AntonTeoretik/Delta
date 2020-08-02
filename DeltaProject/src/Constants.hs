@@ -1,5 +1,7 @@
 module Constants where
 
+import Random
+
 _FORCE_LINE_LENGTH = 30 :: Int
 
 _STEP = 0.01 --промежуток времени который проходит между шагами idle
@@ -14,5 +16,5 @@ _CURRENT = (-3) :: Double --ток в магнитном поле
 _NUMBER = 100 :: Int --число которое берёт circuitFromFunction - не знаю, что делает
 _CHARGE = 1 :: Double
 
-
-_NEWNUMPOINTS = 5 :: Int
+_FIELDPOINTS = take 8000 (generatePointsInSphere _GENERATECUBEPOINTS _CUBELENGTH)
+_NEWNUMPOINTS = 5 :: Int --число виртуальных частиц которые добавляются на каждом шагу
