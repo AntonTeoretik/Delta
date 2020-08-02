@@ -40,9 +40,11 @@ main' = do
    (progName,_) <- getArgsAndInitialize
    initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
    createWindow progName
+   windowSize $= Size 1500 700
+
    depthFunc $= Just Less
 
-   pPos <- new (90 :: Int, 270 :: Int, 2.0)
+   pPos <- new (1000 :: Int, 1000 :: Int, 2.0)
    keyboardMouseCallback $= Just (keyboard pPos)
    
    -- все my__ берутся из Example.hs, я сделала случайным образом пару точек чтобы проверить что всё рисуется
@@ -77,6 +79,7 @@ main' = do
    field2 <- new otherField
    field3 <- new $ getMagneticFieldSystem [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
    field4 <- new $ getElectricFieldSystem [StaticElectricParticle (A.Point (-1) 0 0) 1, StaticElectricParticle (A.Point 1 0 0) (-1) ]
+    
 
    --idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
    --idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints) --двигает много виртуальных частиц
@@ -216,3 +219,12 @@ idleVPS vParticleSystem step field1 newPoints = do
   vParticleSystem $= TVP.evaluateSVP s f1 newvps
   newPoints $= tail newpoints
   postRedisplay Nothing
+
+
+--reshape s@(Size w h) = do
+  --viewport $= (Position 0 0, s) --keeps the display function in the center of the window
+  --viewport $= (Position 50 50, Size (w - 80) (h - 60)) -- makes the image smaller than the window
+
+
+  --frustum : left, right, top, bottom, near, far
+
