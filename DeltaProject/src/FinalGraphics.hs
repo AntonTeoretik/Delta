@@ -10,7 +10,7 @@ import TempMasslessParticles as TVP
 import ForceLines 
 import Magnetic
 import Random
-
+import OrbitAroundVectors
 import PointsForRendering
 import StateUtil
 import Algebra as A
@@ -52,8 +52,38 @@ showPhysicalSystem :: SceneParameters ->
                       [StaticElectricParticle] -> -- тут мб другое название, не помню
                       [Circuit] -> 
                       IO () -- рисует всю систему и запускает движение массивных частиц
-showAnyField = undefined
+--showAnyField = undefined
 showPhysicalSystem = undefined
+
+showAnyField (SceneParameters randomGenValue domainRadius) (ShowVectors numVectors lengthVectors) field = do
+   (progName,_) <- getArgsAndInitialize
+   initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
+   createWindow progName
+   depthFunc $= Just Less
+
+   pPos <- new (90 :: Int, 270 :: Int, 2.0)
+   keyboardMouseCallback $= Just (keyboard pPos)
+{-
+   cubeLength <- new _CUBELENGTH
+   generateCubePoints <- new _GENERATECUBEPOINTS
+   number <- new _NUMBER
+   current <- new _CURRENT
+   charge <- new _CHARGE
+
+   points <- new myPoints
+   force <- new myForce
+   magnetCircuits <- new [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
+   
+   staticElectricParticles <- new [ (StaticElectricParticle (A.Point (-1) 0 0) 1), (StaticElectricParticle (A.Point (1) 0 0) (-1)) ]
+-}
+   displayCallback $= displayField pPos field (take numVectors (generatePointsInSphere randomGenValue domainRadius))
+   reshapeCallback $= Just reshape
+   mainLoop
+
+
+    
+
+
 {-main''' = do
    (progName,_) <- getArgsAndInitialize
    initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
@@ -103,11 +133,4 @@ showPhysicalSystem = undefined
    --displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
-
-
-
-
-
-
-
 -}

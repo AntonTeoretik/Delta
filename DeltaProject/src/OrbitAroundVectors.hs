@@ -78,14 +78,14 @@ main' = do
    field3 <- new $ getMagneticFieldSystem [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
    field4 <- new $ getElectricFieldSystem [StaticElectricParticle (A.Point (-1) 0 0) 1, StaticElectricParticle (A.Point 1 0 0) (-1) ]
 
-   --idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
+   idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
    --idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints) --двигает много виртуальных частиц
-   --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
+   displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
    --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
-   --displayCallback $= displayField pPos field1 points -- рисует векторное поле
-   --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1  -- рисует силовые линии
+   --displayCallback $= displayField pPos field3 points -- рисует векторное поле
+   --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
-   displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
+   --displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
 
