@@ -55,12 +55,15 @@ main' = do
    number <- new _NUMBER
    current <- new _CURRENT
    charge <- new _CHARGE
+    
+   newPoints <- new $ generatePointsInSphere _CUBELENGTH _GENERATECUBEPOINTS
+
 
    points <- new myPoints
    force <- new myForce 
    massParticle <- new myParticle
    particleSystem <- new myParticleSystem
-   
+    
    virtualParticle <- new myVirtualParticle
    vParticleSystem <- new myVirtualParticleSystem 
 
@@ -74,10 +77,10 @@ main' = do
    field3 <- new $ getMagneticFieldSystem [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
    field4 <- new $ getElectricFieldSystem [StaticElectricParticle (A.Point (-1) 0 0) 1, StaticElectricParticle (A.Point 1 0 0) (-1) ]
 
-   idleCallback $= Just (idleParticleSystem particleSystem step field2 field1) --двигает много массивных частиц + запоминает предыдущие положения
-   --idleCallback $= Just (idleVPS vParticleSystem step field3) --двигает много виртуальных частиц
-   displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
-   --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
+   --idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
+   idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints) --двигает много виртуальных частиц
+   --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
+   displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
    --displayCallback $= displayField pPos field1 points -- рисует векторное поле
    --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1  -- рисует силовые линии
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
@@ -100,7 +103,7 @@ displayMass pPos particleSystem = do
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
    ps <- get particleSystem
-   mapM_ (massShiftCircle 0.1) (listOfParticles ps) --рисует массовые частицы 
+   mapM_ (massShiftCircle) (listOfParticles ps) --рисует массовые частицы 
    mapM_ particleTrail (listOfParticles ps) --рисует след
    swapBuffers
 
@@ -110,7 +113,7 @@ displayVirtual pPos vParticleSystem radius = do
    clear [ColorBuffer, DepthBuffer]
    vps <- get vParticleSystem
    r <- get radius
-   mapM_ (virtualShiftCircle r) (listOfVirtualParticles vps) -- рисует виртуальные частицы
+   mapM_ (virtualShiftCircle) (listOfVirtualParticles vps) -- рисует виртуальные частицы
    swapBuffers
 
 displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1 = do
@@ -159,32 +162,48 @@ pT (A.Point x y z) = (x, y, z)
 
 keyboard pPos c _ _ _ = keyForPos pPos c
 
-massShiftCircle :: Double -> Particle -> IO()
-massShiftCircle r p = preservingMatrix $ 
+massShiftCircle ::  Particle -> IO()
+{-massShiftCircle r p = preservingMatrix $ 
                      do 
                         (translate $ Vector3 (px $ TMP.position p) (py $  TMP.position p) (pz $ TMP.position p))
                         renderSphere r 10 10 
-
-virtualShiftCircle :: Double -> VirtualParticle -> IO()
-virtualShiftCircle r p = preservingMatrix $
+-}
+massShiftCircle (Particle (A.Point x y z) _ _ _ _ _ _) = do
+    let point = [(x, y, z)]
+    currentColor $= Color4 0 1 1 1
+    renderAs Points point
+virtualShiftCircle :: VirtualParticle -> IO()
+{-virtualShiftCircle r p = preservingMatrix $
                      do
                         (translate $ Vector3 (px $ TVP.position p) (py $  TVP.position p) (pz $ TVP.position p))
                         renderOtherSphere r 10 10
-
+-}
+virtualShiftCircle (VirtualParticle (A.Point x y z) _) = do
+   let point = [(x, y, z)]
+   currentColor $= Color4 1 1 0 1
+   renderAs Points point
 renderForceLines :: Double -> Double -> Int -> Int -> (Point -> Vector) -> IO()
 renderForceLines x a b i f = mapM_ (renderAs LineStrip) $ map pointToTriple $ bigList $ buildFromVecField x a b i f
 
-idleParticleSystem particleSystem step field field' = do
+idleParticleSystem particleSystem step field field' newPoints = do
   ps <- get particleSystem
   s <- get step
   f1 <- get field
   f2 <- get field'
-  particleSystem $= TMP.evaluateSystemOfParticles s f1 f2 ps
+  newpoints <- get newPoints
+  let newps = addParticleToSystem (Particle (head newpoints) (tV (pT (head (tail newpoints)))) 300 100 5 [] 300) ps
+  particleSystem $= TMP.evaluateSystemOfParticles s f1 f2 newps
+  newPoints $= tail newpoints
   postRedisplay Nothing
-
-idleVPS vParticleSystem step field1 = do 
+tV (x, y, z) = (A.Vector x y z)
+idleVPS vParticleSystem step field1 newPoints = do 
   vps <- get vParticleSystem
   s <- get step
   f1 <- get field1
-  vParticleSystem $= TVP.evaluateSVP s f1 vps
+  --cl <- get cubeLength
+  --gcp <- get generateCubePoints
+  newpoints <- get newPoints
+  let newvps = TVP.addVirtualParticleToSVP (VirtualParticle (head newpoints) 20) vps 
+  vParticleSystem $= TVP.evaluateSVP s f1 newvps
+  newPoints $= tail newpoints
   postRedisplay Nothing
