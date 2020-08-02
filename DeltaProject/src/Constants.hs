@@ -13,3 +13,6 @@ _GENERATECUBEPOINTS = 10 :: Int --что-то про generatePointsFromCube, н�
 _CURRENT = (-3) :: Double --ток в магнитном поле
 _NUMBER = 100 :: Int --число которое берёт circuitFromFunction - не знаю, что делает
 _CHARGE = 1 :: Double
+
+
+_NEWNUMPOINTS = 5 :: Int
