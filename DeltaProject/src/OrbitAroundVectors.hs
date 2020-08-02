@@ -35,7 +35,7 @@ _GENERATECUBEPOINTS = 10 --что-то про generatePointsFromCube, не зн�
 _CURRENT = (-3) --ток в магнитном поле
 _NUMBER = 100 --число которое берёт circuitFromFunction - не знаю, что делает
 _CHARGE = 1
-
+_NEWNUMPOINTS = 5 --сколько новых виртуальных частиц добавляется каждый шаг
 main' = do
    (progName,_) <- getArgsAndInitialize
    initialDisplayMode $= [WithDepthBuffer, DoubleBuffered]
@@ -58,6 +58,7 @@ main' = do
    number <- new _NUMBER
    current <- new _CURRENT
    charge <- new _CHARGE
+   newNumPoints <- new _NEWNUMPOINTS
     
    newPoints <- new $ generatePointsInSphere _GENERATECUBEPOINTS _CUBELENGTH
 
@@ -82,11 +83,11 @@ main' = do
     
 
    --idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
-   --idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints) --двигает много виртуальных частиц
+   idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints newNumPoints) --двигает много виртуальных частиц
    --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
-   --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
+   displayCallback $= displayVirtual pPos vParticleSystem -- рисует виртуальные частицы
    --displayCallback $= displayField pPos field3 points -- рисует векторное поле
-   displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
+   --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
    --displayCallback $= displayElectric pPos radius staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
@@ -207,24 +208,27 @@ idleParticleSystem particleSystem step field field' newPoints = do
   particleSystem $= TMP.evaluateSystemOfParticles s f1 f2 newps
   newPoints $= tail newpoints
   postRedisplay Nothing
+
 tV (x, y, z) = (A.Vector x y z)
-idleVPS vParticleSystem step field1 newPoints = do 
+
+addXParticles :: Int -> ([A.Point], SystemOfVirtualParticles) -> ([A.Point], SystemOfVirtualParticles)
+
+addXParticles numPoints (newPoints, svp) | numPoints == 0  = (newPoints, svp)
+                                         | otherwise       = addXParticles (numPoints - 1) (tail newPoints, TVP.addVirtualParticleToSVP (VirtualParticle (head newPoints) 20) svp)
+
+idleVPS vParticleSystem step field1 newPoints newNumPoints = do 
   vps <- get vParticleSystem
   s <- get step
   f1 <- get field1
   --cl <- get cubeLength
   --gcp <- get generateCubePoints
   newpoints <- get newPoints
-  let newvps = TVP.addVirtualParticleToSVP (VirtualParticle (head newpoints) 20) vps 
-  vParticleSystem $= TVP.evaluateSVP s f1 newvps
-  newPoints $= tail newpoints
+  newnumpoints <- get newNumPoints
+  --let newvps = TVP.addVirtualParticleToSVP (VirtualParticle (head newpoints) 20) vps 
+  let newvps = addXParticles newnumpoints (newpoints, vps)
+  vParticleSystem $= TVP.evaluateSVP s f1 (snd newvps)
+  newPoints $= fst newvps
   postRedisplay Nothing
 
 
---reshape s@(Size w h) = do
-  --viewport $= (Position 0 0, s) --keeps the display function in the center of the window
-  --viewport $= (Position 50 50, Size (w - 80) (h - 60)) -- makes the image smaller than the window
-
-
-  --frustum : left, right, top, bottom, near, far
 
