@@ -57,7 +57,7 @@ main' = do
    current <- new _CURRENT
    charge <- new _CHARGE
     
-   newPoints <- new $ generatePointsInSphere _CUBELENGTH _GENERATECUBEPOINTS
+   newPoints <- new $ generatePointsInSphere _GENERATECUBEPOINTS _CUBELENGTH
 
 
    points <- new myPoints
@@ -83,9 +83,9 @@ main' = do
    --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
    --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
    --displayCallback $= displayField pPos field3 points -- рисует векторное поле
-   --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
+   displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
-   displayCallback $= displayElectric pPos radius staticElectricParticles cubeLength generateCubePoints
+   --displayCallback $= displayElectric pPos radius staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
 
@@ -116,7 +116,7 @@ displayVirtual pPos vParticleSystem = do
    mapM_ (virtualShiftCircle) (listOfVirtualParticles vps) -- рисует виртуальные частицы
    swapBuffers
 
-displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1 = do
+displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field = do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
@@ -124,7 +124,7 @@ displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints fiel
    pd <- get pointDist
    fln <- get forceLineNum
    gcp <- get generateCubePoints
-   f <- get field1
+   f <- get field
    renderForceLines cl pd fln gcp f --рисует силовые линии
    swapBuffers
 
