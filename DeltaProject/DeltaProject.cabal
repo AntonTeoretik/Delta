@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8e88e760b72de511723b3fb03d32713ab8db20f51ffce82202716d7868c2d306
+-- hash: 1e19493d0eb004164ee26bc3874d906aa14023ca79c1d2a44fb909ca0865de5e
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
   exposed-modules:
       Algebra
       Circle
+      Constants
       Distribution
       Electric
       Example
