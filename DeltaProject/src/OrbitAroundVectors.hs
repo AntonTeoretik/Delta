@@ -7,7 +7,7 @@ import Data.IORef
 
 import Particles as TMP
 import TempMasslessParticles as TVP --есть изменения к TempMasslessParticles - я дала имена элементам VirtualParticle и virtualSystemOfParticles
-import ForceLines --изменения: дала название элементу ForceLines, сделала чтобы в каждой силовой линии конечное количество точек
+import TempForceLines --изменения: дала название элементу ForceLines, сделала чтобы в каждой силовой линии конечное количество точек
 import Magnetic
 import Random
 import Distribution
@@ -78,14 +78,14 @@ main' = do
    field3 <- new $ getMagneticFieldSystem [circuitFromFunction _NUMBER _CURRENT Magnetic.circle]
    field4 <- new $ getElectricFieldSystem [StaticElectricParticle (A.Point (-1) 0 0) 1, StaticElectricParticle (A.Point 1 0 0) (-1) ]
 
-   idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
+   --idleCallback $= Just (idleParticleSystem particleSystem step field2 field1 newPoints) --двигает много массивных частиц + запоминает предыдущие положения
    --idleCallback $= Just (idleVPS vParticleSystem step field3 newPoints) --двигает много виртуальных частиц
-   displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
+   --displayCallback $= displayMass pPos particleSystem -- рисует массовые частицы и их следа
    --displayCallback $= displayVirtual pPos vParticleSystem radius-- рисует виртуальные частицы
    --displayCallback $= displayField pPos field3 points -- рисует векторное поле
    --displayCallback $= displayForceLines pPos cubeLength pointDist forceLineNum generateCubePoints field1   -- рисует силовые линии
    --displayCallback $= displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
-   --displayCallback $= displayElectric pPos staticElectricParticles cubeLength generateCubePoints
+   displayCallback $= displayElectric pPos radius staticElectricParticles cubeLength generateCubePoints
    reshapeCallback $= Just reshape
    mainLoop
 
@@ -108,12 +108,11 @@ displayMass pPos particleSystem = do
    mapM_ particleTrail (listOfParticles ps) --рисует след
    swapBuffers
 
-displayVirtual pPos vParticleSystem radius = do
+displayVirtual pPos vParticleSystem = do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
    vps <- get vParticleSystem
-   r <- get radius
    mapM_ (virtualShiftCircle) (listOfVirtualParticles vps) -- рисует виртуальные частицы
    swapBuffers
 
@@ -148,17 +147,18 @@ displayMagnetic pPos magnetCircuits number current cubeLength generateCubePoints
 
 
 
-displayElectric pPos staticElectricParticles cubeLength generateCubePoints= do
+displayElectric pPos radius staticElectricParticles cubeLength generateCubePoints= do
    loadIdentity
    setPointOfView pPos
    clear [ColorBuffer, DepthBuffer]
    sep <- get staticElectricParticles
    cl <- get cubeLength
    gcp <- get generateCubePoints
+   r <- get radius
    --displayVecField (getElectricFieldSystem sep) (take 10000 $ generatePointsInSphere cl gcp)
    displayVecField (getElectricFieldSystem sep) (take 8000 $ getPointsWithDistribution 8 $ Distr [((Distribution.Cube 8 (A.Point 0 0 0)), 10)])
    currentColor $= Color4 0 0 1 1
-   renderAs LineLoop $ pointToTriple $ map Electric.position sep
+   mapM_ (virtualShiftCircle' r)  $ map Electric.position sep
    swapBuffers
 
 particleTrail :: TMP.Particle -> IO()
@@ -172,21 +172,21 @@ pT (A.Point x y z) = (x, y, z)
 keyboard pPos c _ _ _ = keyForPos pPos c
 
 massShiftCircle ::  Particle -> IO()
-{-massShiftCircle r p = preservingMatrix $ 
+massShiftCircle' r p = preservingMatrix $ 
                      do 
                         (translate $ Vector3 (px $ TMP.position p) (py $  TMP.position p) (pz $ TMP.position p))
                         renderSphere r 10 10 
--}
+
 massShiftCircle (Particle (A.Point x y z) _ _ _ _ _ _) = do
     let point = [(x, y, z)]
     currentColor $= Color4 0 1 1 1
     renderAs Points point
 virtualShiftCircle :: VirtualParticle -> IO()
-{-virtualShiftCircle r p = preservingMatrix $
+virtualShiftCircle' r point = preservingMatrix $
                      do
-                        (translate $ Vector3 (px $ TVP.position p) (py $  TVP.position p) (pz $ TVP.position p))
+                        (translate $ Vector3 (px $ point) (py $ point) (pz $ point))
                         renderOtherSphere r 10 10
--}
+
 virtualShiftCircle (VirtualParticle (A.Point x y z) _) = do
    let point = [(x, y, z)]
    currentColor $= Color4 1 1 0 1

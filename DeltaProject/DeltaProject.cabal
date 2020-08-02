@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 540f956fc34f5e64d288bfa36a6b552df80f4e90d0998adfaaf07adc87489f4e
+-- hash: 8e88e760b72de511723b3fb03d32713ab8db20f51ffce82202716d7868c2d306
 
 name:           DeltaProject
 version:        0.1.0.0
@@ -32,8 +32,6 @@ library
       Distribution
       Electric
       Example
-      FinalGraphics
-      ForceLines
       Graphics
       GraphicsExperimenting
       Idle

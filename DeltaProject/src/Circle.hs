@@ -23,5 +23,5 @@ renderSphere r lat long = do
     renderObject Solid $ Sphere' r lat long
 
 renderOtherSphere r lat long = do
-    currentColor $= Color4 0 1 0.3 1
+    currentColor $= Color4 1 0 0 1
     renderObject Solid $ Sphere' r lat long 
